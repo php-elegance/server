@@ -35,7 +35,12 @@ abstract class Assets
         if (!File::check($path))
             throw new Exception("Arquivo não encontrado", STS_NOT_FOUND);
 
-        Response::content(Import::content($path));
+        if (View::suportedCheck(File::getEx($path))) {
+            Response::content(View::renderFile("=$path"));
+        } else {
+            Response::content(Import::content($path));
+        }
+
         Response::type(File::getEx($path));
         Response::download(File::getOnly($path));
         Response::download(false);
