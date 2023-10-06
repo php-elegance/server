@@ -11,4 +11,4 @@
 /app/*
 !/app/assets
 
-/view
+/view/*
