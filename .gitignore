@@ -5,10 +5,6 @@
 /.env
 /index.php
 
-/routes/*
-!/routes/assets.php
-
 /app/*
-!/app/assets
-
+/routes/*
 /view/*
