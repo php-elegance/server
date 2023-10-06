@@ -1,0 +1,30 @@
+{
+    "name": "elegance/server",
+    "description": "Servidor web para aplicações Elegance",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "André Ricardo",
+            "email": "contatoadmx@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "": "source/class/"
+        },
+        "files": [
+            "source/helper/constant/http_status.php",
+            "source/helper/constant/request_is.php",
+            "source/helper/script/env.php",
+            "source/helper/script/path.php"
+        ]
+    },
+    "require": {
+        "ext-mbstring": "*",
+        "ext-fileinfo": "*",
+        "elegance/core": "^0.1.0",
+        "elegance/mxcmd": "^0.1.0",
+        "elegance/cif-code": "^0.1.0",
+        "elegance/middleware": "^0.1.0"
+    }
+}
