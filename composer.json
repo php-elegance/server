@@ -15,6 +15,7 @@
         "files": [
             "source/helper/constant/http_status.php",
             "source/helper/constant/request_is.php",
+            "source/helper/script/action.php",
             "source/helper/script/env.php",
             "source/helper/script/path.php"
         ]
