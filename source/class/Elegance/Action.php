@@ -12,7 +12,7 @@ abstract class Action
     protected static array $prefix = [];
 
     /** Retorna o resultado de uma chamada de ação */
-    static function run(String|Int|Closure $call, array $data = [])
+    static function run($call, array $data = [])
     {
         $action = self::get($call, $data);
 
