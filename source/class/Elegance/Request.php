@@ -163,29 +163,43 @@ abstract class Request
 
     protected static function current_ssl(): bool
     {
+        if (IS_TERMINAL)
+            return parse_url(env('BASE_URL'))['scheme'] == 'https';
+
         return env('FORCE_SSL') ?? strtolower($_SERVER['HTTPS'] ?? '') == 'on';
     }
 
     protected static function current_host(): string
     {
+        if (IS_TERMINAL) {
+            $BASE_URL = parse_url(env('BASE_URL'));
+            $host = $BASE_URL['host'];
+            if (isset($BASE_URL['port']))
+                $host .= ":" . $BASE_URL['port'];
+            return $host;
+        }
+
         return $_SERVER['HTTP_HOST'] ?? 'undefined';
     }
 
     protected static function current_path(): array
     {
-        if (!IS_TERMINAL) {
-            $path = urldecode($_SERVER['REQUEST_URI']);
-            $path = explode('?', $path);
-            $path = array_shift($path);
-            $path = trim($path, '/');
-            $path = explode('/', $path);
-            $path = array_filter($path, fn ($path) => !is_blank($path));
-        }
+        if (IS_TERMINAL) return [];
+
+        $path = urldecode($_SERVER['REQUEST_URI']);
+        $path = explode('?', $path);
+        $path = array_shift($path);
+        $path = trim($path, '/');
+        $path = explode('/', $path);
+        $path = array_filter($path, fn ($path) => !is_blank($path));
+
         return $path ?? [];
     }
 
     protected static function current_query(): array
     {
+        if (IS_TERMINAL) return [];
+
         $query = $_SERVER['REQUEST_URI'];
         $query = parse_url($query)['query'] ?? '';
         parse_str($query, $query);
@@ -197,6 +211,8 @@ abstract class Request
 
     protected static function current_data(): array
     {
+        if (IS_TERMINAL) return [];
+
         if (IS_GET) {
             $data = [];
             $inputData = file_get_contents('php://input');
@@ -218,6 +234,8 @@ abstract class Request
 
     protected static function current_file(): array
     {
+        if (IS_TERMINAL) return [];
+
         $files = [];
 
         foreach ($_FILES as $name => $file) {

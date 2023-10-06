@@ -4,6 +4,10 @@ namespace Elegance;
 
 Action::prefix('#', fn ($response) => prepare($response, Request::route()));
 
+Action::prefix('>', fn ($response) => redirect($response));
+
+Action::prefix('>>', fn ($response) => redirect($response, ...Request::route()));
+
 Action::prefix('', function ($__APP__, array $__DATA = []) {
     $__APP__ = str_replace('.', '/', $__APP__);
     $__APP__ = File::setEx($__APP__, 'php');

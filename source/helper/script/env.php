@@ -4,6 +4,8 @@ use Elegance\Env;
 
 Env::default('PORT', 8888);
 
+Env::default('BASE_URL', 'http://127.0.0.1:' . env('PORT'));
+
 Env::default('CACHE', null);
 
 Env::default('STM_200', 'ok');
