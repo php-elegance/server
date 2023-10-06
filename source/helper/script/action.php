@@ -30,5 +30,5 @@ Action::prefix('', function ($__APP__, array $__DATA = []) {
     if (!is_string($__RESPONSE__))
         return Action::run($__RESPONSE__, $__DATA);
 
-    return $__RESPONSE__;
+    return View::renderString($__OUTPUT__, 'php', $__DATA);
 });
