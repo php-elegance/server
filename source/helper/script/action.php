@@ -27,7 +27,7 @@ Action::prefix('', function ($__APP__, array $__DATA = []) {
     if (!$__RESPONSE__ == 1)
         $__RESPONSE__ = STS_OK;
 
-    if (!is_string($__RESPONSE__))
+    if (!is_stringable($__RESPONSE__))
         return Action::run($__RESPONSE__, $__DATA);
 
     return View::renderString($__RESPONSE__, 'php', $__DATA);
