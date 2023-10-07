@@ -42,7 +42,7 @@ return new class
         ];
 
         if ($status == STS_REDIRECT) {
-            $response['info']['location'] = !empty($message) ? url($message) : url(true);
+            $response['info']['location'] = !empty($message) ? url($message) : url();
             Response::header('location', $response['info']['location']);
             $message = null;
         }
