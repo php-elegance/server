@@ -13,7 +13,7 @@ Router::middleware(['elegance.cros', 'elegance.json']);
 Router::add('assets...', fn () => Assets::send('library/assets/', ...Request::route()));
 Router::add('favicon.ico', fn () => Assets::send('#elegance-server/library/assets/favicon.ico'));
 
-Router::add('', 'Wellcome to Elegance PHP');
+Router::add('', '#Wellcome to Elegance PHP');
 
 Router::import();
 
