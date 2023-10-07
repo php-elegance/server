@@ -27,8 +27,8 @@ if (!function_exists('url')) {
             if (isset(parse_url($url)['scheme'])) {
                 $url = "https://$url";
             } else {
-                if (!str_starts_with($url, '/'))
-                    $url = path(implode('/', Request::path()), $url);
+                if (str_starts_with($url, '.'))
+                    $url = path(implode('/', Request::path()), substr($url, 1));
 
                 $url = path(Request::host(), $url);
                 $url = (Request::ssl() ? 'https' : 'http') . '://' . $url;

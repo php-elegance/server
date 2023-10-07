@@ -46,7 +46,7 @@ Usar a tag prepare junto com o prefixo **.** (ponto) vai importar um aquivo de v
 Se precisar chamar um arquivo de view, que não esteja no diretório **view**, utilize o prefixo **=**
 
 
-    [#view:page.html] // Carrega arquivo front/view/page.html
+    [#view:page.html] // Carrega arquivo view/page.html
     [#view:.page.html] // Carrega arquivo [currentPath]/page.html
     [#view:=libray/page.html] // Carrega arquivo libray/page.html
 
