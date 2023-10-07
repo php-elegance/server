@@ -163,7 +163,7 @@ abstract class Response
             }
         }
 
-        $headerCache['Mx-Cache'] = $cacheTime ? $cacheTime : 'false';
+        $headerCache['Elegance-Cache'] = $cacheTime ? $cacheTime : 'false';
 
         return $headerCache ?? [];
     }

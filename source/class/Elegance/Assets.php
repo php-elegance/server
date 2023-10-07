@@ -6,14 +6,14 @@ use Exception;
 
 abstract class Assets
 {
-    /** Envia um arquivo assets como resposta da requisição */
+    /** Envia um arquivo ou view assets como resposta da requisição */
     static function send(): never
     {
         self::loadResponse(...func_get_args());
         Response::send();
     }
 
-    /** Realiza o download de um arquivo assets como resposta da requisição */
+    /** Realiza o download de um arquivo ou view assets como resposta da requisição */
     static function download(): never
     {
         self::loadResponse(...func_get_args());
@@ -21,7 +21,7 @@ abstract class Assets
         Response::send();
     }
 
-    /** Carrega um arquivo na resposta da aplicação */
+    /** Carrega um arquivo ou view na resposta da aplicação */
     static function load(): void
     {
         self::loadResponse(...func_get_args());
