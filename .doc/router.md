@@ -54,7 +54,7 @@ Você pode definir um valor que um parametro deva assumir.
     Router::add('blog/[#postSlut:nome-do-post]')
     Router::add('blog/[#postSlut:nome-de-outro-post]')
 
- > Os parametros dinamicos podem ser recuperados utilizando a classe [Request](URL_REPO/blob/main/.doc/class/request.md)
+ > Os parametros dinamicos podem ser recuperados utilizando a classe [Request](https://github.com/php-elegance/server/blob/main/.doc/request.md)
 
     Request::route(); //Retorna todos os parametros
     Request::route(0); //Retorna o primeiro parametro
