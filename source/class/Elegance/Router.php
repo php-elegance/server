@@ -23,6 +23,34 @@ abstract class Router
         ];
     }
 
+    /** Adiciona rotas na lista de interpretação em requisições GET */
+    static function get(string $route, string|int|Closure $response, array $middleware = []): void
+    {
+        if (IS_GET)
+            self::add(...func_get_args());
+    }
+
+    /** Adiciona rotas na lista de interpretação em requisições POST */
+    static function post(string $route, string|int|Closure $response, array $middleware = []): void
+    {
+        if (IS_POST)
+            self::add(...func_get_args());
+    }
+
+    /** Adiciona rotas na lista de interpretação em requisições PUT */
+    static function put(string $route, string|int|Closure $response, array $middleware = []): void
+    {
+        if (IS_PUT)
+            self::add(...func_get_args());
+    }
+
+    /** Adiciona rotas na lista de interpretação em requisições DELETE */
+    static function delete(string $route, string|int|Closure $response, array $middleware = []): void
+    {
+        if (IS_DELETE)
+            self::add(...func_get_args());
+    }
+
     static function middleware(string|array $middleware, ?Closure $routes = null)
     {
         if (is_null($routes)) {

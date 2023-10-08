@@ -12,6 +12,13 @@ A classe conta um metodo para adiconar rotas manualmente
 
     Router::add($template,$response);
 
+você pode adicionar rotas que respondem a apenas um tipo de requisição
+
+    Router::get(...); // Responde apenas requisições GET
+    Router::post(...); // Responde apenas requisições POST
+    Router::put(...); // Responde apenas requisições PUT
+    Router::delete(...); // Responde apenas requisições DELETE
+
 > As ordem de declaração das rotas não importa pra a interpretação. A classe vai organizar as rotas da maneira mais segura possivel.
 
 Para resolver as rotas, utilize o metodo **solve**
