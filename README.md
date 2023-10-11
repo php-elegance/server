@@ -11,7 +11,6 @@ Servidor web para aplicações Elegance
 
 - [action](https://github.com/php-elegance/server/blob/main/.doc/action.md)
 - [assets](https://github.com/php-elegance/server/blob/main/.doc/assets.md)
-- [mime](https://github.com/php-elegance/server/blob/main/.doc/mime.md)
 - [request](https://github.com/php-elegance/server/blob/main/.doc/request.md)
 - [response](https://github.com/php-elegance/server/blob/main/.doc/response.md)
 - [router](https://github.com/php-elegance/server/blob/main/.doc/router.md)
