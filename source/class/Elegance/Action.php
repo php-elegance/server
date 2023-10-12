@@ -38,7 +38,7 @@ abstract class Action
                 return fn () => throw new Exception('', $response);
 
             if (is_array($response))
-                return fn () => json_encode($response);
+                return fn () => $response;
 
             if (is_closure($response))
                 return fn () => self::action_closure($response, $data);
