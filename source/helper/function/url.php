@@ -36,6 +36,9 @@ if (!function_exists('url')) {
             $url = trim($url, '/');
         }
 
+        $url = str_replace_all("//", "/", $url);
+        $url = str_replace_first(":/", "://", $url);
+
         if (!is_blank($queryString))
             $url = "$url?" . urldecode(http_build_query($queryString));
 
