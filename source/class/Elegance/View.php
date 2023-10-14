@@ -253,9 +253,7 @@ abstract class View
     /** Aplica os prepare de view em uma string */
     protected static function applyPrepare($string)
     {
-        $string = prepare($string, self::currentGet('data'));
-        $string = prepare($string, self::$prepare);
-
+        $string = prepare($string, [...self::currentGet('data'), ...self::$prepare]);
         return $string;
     }
 }
