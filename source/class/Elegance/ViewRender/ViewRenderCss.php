@@ -2,6 +2,9 @@
 
 namespace Elegance\ViewRender;
 
+use ScssPhp\ScssPhp\Compiler;
+use ScssPhp\ScssPhp\OutputStyle;
+
 abstract class ViewRenderCss extends ViewRender
 {
     protected static array $importedHash = [];
@@ -11,6 +14,7 @@ abstract class ViewRenderCss extends ViewRender
     protected static array $prepareReplace = [
         '/* [#' => '[#',
         '] */' => ']',
+        '// [#' => '[#'
     ];
 
     /** Aplica ações extras ao renderizar uma view */
@@ -28,10 +32,10 @@ abstract class ViewRenderCss extends ViewRender
 
         self::$importedHash[$hash] = true;
 
-        if (!self::parentType('css')) {
-            if (count(self::$current) == 1) {
-                $content = self::minify($content);
-            } elseif ($encaps) {
+        if (!self::parentType('scss')) {
+            $content = self::minify($content);
+
+            if ($encaps && !self::parentType('css')) {
                 $content = "<style>\n$content\n</style>";
             }
         }
@@ -51,9 +55,10 @@ abstract class ViewRenderCss extends ViewRender
         foreach (self::$media as $media => $value)
             $style = str_replace("@media $media", "@media $value", $style);
 
-        $style = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $style);
-        $style = preg_replace('/\s*([{}|:;,])\s+/', '$1', $style);
-        $style = str_replace(array("\r\n", "\r", "\n", "\t", '  ', '    ', '    '), '', $style);
+        $scssCompiler = (new Compiler());
+        $scssCompiler->setOutputStyle(OutputStyle::COMPRESSED);
+        $style = $scssCompiler->compileString($style)->getCss();
+
         return $style;
     }
 }
