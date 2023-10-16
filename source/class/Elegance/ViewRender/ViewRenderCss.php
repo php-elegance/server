@@ -32,10 +32,10 @@ abstract class ViewRenderCss extends ViewRender
 
         self::$importedHash[$hash] = true;
 
-        if (!self::parentType('scss')) {
-            $content = self::minify($content);
-
-            if ($encaps && !self::parentType('css')) {
+        if (!self::parentType('css') && !self::parentType('scss')) {
+            if (count(self::$current) == 1) {
+                $content = self::minify($content);
+            } elseif ($encaps) {
                 $content = "<style>\n$content\n</style>";
             }
         }
