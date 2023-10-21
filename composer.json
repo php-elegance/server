@@ -27,8 +27,7 @@
     "require": {
         "ext-mbstring": "*",
         "ext-fileinfo": "*",
-        "elegance/core": "dev-main",
-        "scssphp/scssphp": "dev-master"
-    },
-    "minimum-stability": "dev"
+        "elegance/core": "^1.1",
+        "scssphp/scssphp": "^1.11"
+    }
 }
