@@ -9,7 +9,11 @@
 **install.structure**: Cria a estrutua de pastas para do projeto
 
     php mx install.structure
-    
+
+**middleware**: Cria um arquivo de middleware em **source/middleware**
+
+    php mx middleware [middlewareRef]
+
 **server**: Executa o servidor embutido do PHP
 
     php mx server
@@ -36,10 +40,30 @@
     CACHE_PDF = 12 //Cache para arquivo .pdf
     CACHE_...
 
+**COOKIE_TIME**: Tempo de vida de um cookie em horas
+
+    COOKIE_TIME = null
+
+**JWT**: Chave padrão para strigns jwt
+
+    JWT = elegance-jwt-default-key
+
 **PORT**: Porta para utilização do servidor embutido
 
     PORT = 8888
 
+**SESSION_TIME**: Tempo de vida de uma sessão PHP em horas
+
+    SESSION_TIME = 24
+
+**SESSION_PATH**: Caminho para ser usado na criação de cookies e session
+
+    SESSION_PATH = /
+
+**SESSION_DOMAIN**: Dominio para ser usado na criação de cookies e session
+
+    SESSION_DOMAIN = ''
+    
 **STM_200**: Mensagem para o status 200
 
     STM_200 = ok
