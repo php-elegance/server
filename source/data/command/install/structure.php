@@ -5,7 +5,7 @@ namespace Elegance;
 // php mx install.structure
 
 return function () {
-    Dir::create("app");
+    Dir::create("action");
     Dir::create("library");
     Dir::create("library/assets");
     Dir::create("routes");

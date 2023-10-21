@@ -14,16 +14,16 @@ Chamadas de ação
 
 ## Ações registradas
 
-### APP
+### ACTION
 É a resposta padrão para qualquer action string sem perfixo
-Para fazer com que um arquivo do diretório **app** responda pela ação, informe o caminho do arquivo como resposta.
+Para fazer com que um arquivo do diretório **action** responda pela ação, informe o caminho do arquivo como resposta.
 
-    Action::run('home'); // Retorno arquivo app/home.php
+    Action::run('home'); // Retorno arquivo action/home.php
 
 Caminhos podem ser separados por **.** ou **/**
 
-    Action::run('blog/post'); // Retorno arquivo app/blog/post.php
-    Action::run('blog.post'); // Retorno arquivo app/blog/post.php
+    Action::run('blog/post'); // Retorno arquivo action/blog/post.php
+    Action::run('blog.post'); // Retorno arquivo action/blog/post.php
 
 O arquivo pode deve retornar um objeto Closure, um array json, um stauts HTTP ou um conteúdo view.
 
