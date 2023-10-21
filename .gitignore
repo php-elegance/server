@@ -5,6 +5,6 @@
 /.env
 /index.php
 
-/action/*
-/routes/*
-/view/*
+/action
+/routes
+/view
