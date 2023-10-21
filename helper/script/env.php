@@ -21,3 +21,7 @@ Env::default('STM_501', 'not implemented');
 Env::default('STM_503', 'service unavailable');
 
 Env::default('JWT', 'elegance-jwt-default-key');
+
+Env::default('SESSION_TIME', 24);
+Env::default('SESSION_PATH', '/');
+Env::default('SESSION_DOMAIN', '');
