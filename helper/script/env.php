@@ -19,3 +19,5 @@ Env::default('STM_405', 'method not allowed');
 Env::default('STM_500', 'internal server error');
 Env::default('STM_501', 'not implemented');
 Env::default('STM_503', 'service unavailable');
+
+Env::default('JWT', 'elegance-jwt-default-key');
