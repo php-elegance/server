@@ -20,7 +20,7 @@ abstract class ViewRenderJs extends ViewRender
 
         $hash = md5($content);
 
-        if (isset(self::$importedHash[$hash]))
+        if (!IS_TERMINAL && isset(self::$importedHash[$hash]))
             return '';
 
         self::$importedHash[$hash] = true;
