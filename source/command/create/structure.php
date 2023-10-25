@@ -2,7 +2,7 @@
 
 namespace Elegance;
 
-// php mx install.structure
+// php mx create.structure
 
 return function () {
     Dir::create("app");

@@ -2,13 +2,13 @@
 
 ## Command
 
-**install.index**: Cria o arquivo index.php
+**create.structure**: Cria a estrutua de pastas para do projeto
+
+    php mx create.structure
+
+**install.index**: Instala o arquivo index.php padrão
 
     php mx install.index
-
-**install.structure**: Cria a estrutua de pastas para do projeto
-
-    php mx install.structure
 
 **middleware**: Cria um arquivo de middleware em **source/middleware**
 
