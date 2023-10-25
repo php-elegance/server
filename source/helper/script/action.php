@@ -2,6 +2,8 @@
 
 namespace Elegance;
 
+use Exception;
+
 Action::prefix('#', fn ($response) => prepare($response, Request::route()));
 
 Action::prefix('>', fn ($response) => redirect($response));
@@ -16,6 +18,9 @@ Action::prefix('', function ($__ACTION__, array $__DATA = []) {
     foreach (array_keys($__DATA) as $__KEY__)
         if (!is_numeric($__KEY__))
             $$__KEY__ = $__DATA[$__KEY__];
+
+    if (!File::check($__ACTION__))
+        throw new Exception('File action not found', STS_INTERNAL_SERVER_ERROR);
 
     ob_start();
     $__RESPONSE__ = include $__ACTION__;
