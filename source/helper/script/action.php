@@ -11,7 +11,7 @@ Action::prefix('>>', fn ($response) => redirect($response, ...Request::route()))
 Action::prefix('', function ($__ACTION__, array $__DATA = []) {
     $__ACTION__ = str_replace('.', '/', $__ACTION__);
     $__ACTION__ = File::setEx($__ACTION__, 'php');
-    $__ACTION__ = path('action', $__ACTION__);
+    $__ACTION__ = path('app', $__ACTION__);
 
     foreach (array_keys($__DATA) as $__KEY__)
         if (!is_numeric($__KEY__))
