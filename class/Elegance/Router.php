@@ -68,10 +68,10 @@ abstract class Router
     static function import(string $fileName = '')
     {
         if (!$fileName) {
-            foreach (Dir::seek_for_file("routes", true) as $fileName)
+            foreach (Dir::seek_for_file("source/routes", true) as $fileName)
                 self::import($fileName);
         } else {
-            Import::only("routes/$fileName");
+            Import::only("source/routes/$fileName");
         }
     }
 

@@ -25,7 +25,7 @@ Para resolver as rotas, utilize o metodo **solve**
 
     Router::solve();
 
-Para importar todos os arquivos do diretório **routes**, utilize o metodo **import**
+Para importar todos os arquivos do diretório *source/routes**, utilize o metodo **import**
 
     Router::import();
 
