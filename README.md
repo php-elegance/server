@@ -20,5 +20,4 @@ Servidor web para aplicações Elegance
 - [request](https://github.com/php-elegance/server/blob/main/.doc/request.md)
 - [response](https://github.com/php-elegance/server/blob/main/.doc/response.md)
 - [router](https://github.com/php-elegance/server/blob/main/.doc/router.md)
-- [session](https://github.com/php-elegance/server/blob/main/.doc/session.md)
 - [view](https://github.com/php-elegance/server/blob/main/.doc/view.md)
