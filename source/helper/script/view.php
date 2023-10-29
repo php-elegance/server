@@ -2,7 +2,7 @@
 
 namespace Elegance;
 
-View::suportedSet('html', '_content.html');
+View::suportedSet('html', '_content.html', 'php');
 View::suportedSet('css', '_style.css');
 View::suportedSet('js', '_script.js');
 

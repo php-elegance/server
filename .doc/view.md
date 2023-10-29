@@ -90,7 +90,12 @@ Os tipos de view suportados são
 
 Você pode adicionar mais tipos de arquivo utilizando o metodo estatico **suportedSet**
 
-    View::suportedSet('html','_content.html');
+    View::suportedSet('scss','_style_.scss');
+
+Se preferir que uma view responda como um tipo diferente, adicione um terceiro parametro ao metodo **suportedSet**
+
+    View::suportedSet('scss','_style_.scss','css'); // Views SCSS serão tratadas como view CSS
+
 
 ### View dinamica PHP
 

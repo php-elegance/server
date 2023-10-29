@@ -12,7 +12,7 @@ abstract class View
 
     protected static array $prepare = [];
 
-    protected static array $suported = ['php'];
+    protected static array $suported = ['php' => 'php'];
 
     protected static array $autoImportViewEx = [];
 
@@ -101,7 +101,7 @@ abstract class View
             $content
         );
 
-        $render = '\\Elegance\\ViewRender\\ViewRender' . ucfirst(self::currentGet('type'));
+        $render = '\\Elegance\\ViewRender\\ViewRender' . ucfirst(self::$suported[self::currentGet('type')]);
 
         if (!class_exists($render) || !is_extend($render, ViewRender::class))
             $render = ViewRender::class;
@@ -218,6 +218,7 @@ abstract class View
         $parentKey = $parentKey[count($parentKey) - 2];
 
         $parentType = self::$current[$parentKey]['type'];
+        $parentType = self::$suported[$parentType];
 
         foreach ($types as $type)
             if (strtolower($type) == $parentType)
@@ -229,16 +230,17 @@ abstract class View
     /** Verifica se o tipo de view pode ser renderizado */
     static function suportedCheck($type)
     {
-        return in_array(strtolower($type), self::$suported);
+        return isset(self::$suported[strtolower($type)]);
     }
 
     /** Adiciona suporte a um tipo de arquivo */
-    static function suportedSet(string $ex, ?string $autoImportFile = null)
+    static function suportedSet(string $ex, ?string $autoImportFile = null, ?string $renderType = null)
     {
         $ex = strtolower($ex);
+        $renderType = strtolower($renderType ?? $ex);
 
         if (!self::suportedCheck($ex))
-            self::$suported[] = $ex;
+            self::$suported[$ex] = $renderType;
 
         if ($autoImportFile)
             self::$autoImportViewFile[$ex] = $autoImportFile;
