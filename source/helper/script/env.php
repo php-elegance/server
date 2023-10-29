@@ -22,6 +22,5 @@ Env::default('STM_503', 'service unavailable');
 
 Env::default('JWT', 'elegance-jwt-default-key');
 
-Env::default('SESSION_TIME', 24);
-Env::default('SESSION_PATH', '/');
-Env::default('SESSION_DOMAIN', '');
+Env::default('COOKIE_LIFE', '+1 days');
+Env::default('COOKIE_DOMAIN', '');

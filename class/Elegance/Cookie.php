@@ -2,7 +2,7 @@
 
 namespace Elegance;
 
-abstract class Cookie extends Session
+abstract class Cookie
 {
     /** Lista de cookies controlados */
     protected static $cookies = [];
@@ -10,15 +10,24 @@ abstract class Cookie extends Session
     /** Lista de cookies removidos na requisição */
     protected static $unlinked = [];
 
-    protected static ?int $timeout = null;
-
     /** Retorna o valor de um cookie */
     static function get(string $name): ?string
     {
+        $safe = str_starts_with($name, '#');
+
+        if ($safe) $name = Code::on($name);
+
         if (!isset(self::$cookies[$name]))
-            self::$cookies[$name] = self::getPHPCookie($name);
+            self::$cookies[$name] = self::__getCookie($name);
 
         $value = self::$cookies[$name] ?? null;
+
+        if ($safe) {
+            $value = Cif::check($value) ? Cif::off($value) : null;
+            if (!is_string($value) || !str_starts_with($value, 'Cookie:'))
+                return null;
+            $value = substr($value, 7);
+        }
 
         return $value;
     }
@@ -26,16 +35,22 @@ abstract class Cookie extends Session
     /** Define um valor para um cookie */
     static function set(string $name, ?string $value): void
     {
-        if (!is_null($value)) {
+        $safe = str_starts_with($name, '#');
 
+        if ($safe) {
+            $name = Code::on($name);
+            $value = Cif::on("Cookie:$value");
+        }
+
+        if (!is_null($value)) {
             if (isset(self::$unlinked[$name]))
                 unset(self::$unlinked[$name]);
 
             self::$cookies[$name] = $value;
-            self::setPHPCookie($name, $value);
+            self::__setCookie($name, $value);
         } else {
             self::$unlinked[$name] = true;
-            self::setPHPCookie($name, '', time() - 3600);
+            self::__setCookie($name, '', "-1 days");
         }
     }
 
@@ -52,34 +67,19 @@ abstract class Cookie extends Session
     }
 
     /** Captura o valor de um cookie real do PHP */
-    protected static function getPHPCookie(string $name): mixed
+    protected static function __getCookie(string $name): mixed
     {
         return filter_input(INPUT_COOKIE, $name);
     }
 
     /** Altera o valor de um cookie real do PHP */
-    protected static function setPHPCookie(string $name, mixed $value): void
+    protected static function __setCookie(string $name, mixed $value, ?string $time = null): void
     {
-        setcookie($name, $value, [
-            'expires' => self::timeLife(),
-            'path' => env('SESSION_PATH'),
-            'domain' => env('SESSION_DOMAIN'),
-            'secure' => true,
-            'httponly' => true,
-            'samesite' => 'None',
-        ]);
-        $_COOKIE[$name] = $_COOKIE[$name] ?? $value;
-    }
+        $time = $time ?? strtotime(env('COOKIE_LIFE'));
+        $domain = env('COOKIE_DOMAIN');
 
-    /** Retorna o tempo de vida de um cookie */
-    protected static function timeLife(): int
-    {
-        if (is_null(self::$timeout)) {
-            $timeout = env('COOKIE_TIME') ?? env('SESSION_TIME');
-            $timeout = intval($timeout);
-            $timeout *= 60 * 60;
-            self::$timeout = time() + $timeout;
-        }
-        return self::$timeout;
+        setcookie($name, $value, $time, '/', $domain, true, true);
+
+        self::$cookies[$name] = $value;
     }
 }

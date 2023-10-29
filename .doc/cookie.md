@@ -2,9 +2,9 @@
 
 Controla cookies do php
 
-A variavel de ambiente **COOKIE_TIME** determina o tempo de vida dos cookies em horas. Por padrão, utiliza-se o valor de **SESSION_TIME**
+A variavel de ambiente **COOKIE_LIFE** determina o tempo de vida dos cookies e deve ser fornecida em strtotime.
 
-> Definir a variavel de ambiente **COOKIE_TIME** como **0**, faz com os cookies sejam excluidos quando o navegador for fechado
+> Definir a variavel de ambiente **COOKIE_LIFE** como **0**, faz com os cookies sejam excluidos quando o navegador for fechado
 
 > Cookies com nome iniciado em **#** terão seus nomes codificados e seus valores cifrados
 

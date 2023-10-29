@@ -40,9 +40,13 @@
     CACHE_PDF = 12 //Cache para arquivo .pdf
     CACHE_...
 
-**COOKIE_TIME**: Tempo de vida de um cookie em horas
+**COOKIE_LIFE**: O tempo de vida do cookie em strtotime
 
-    COOKIE_TIME = null
+    COOKIE_LIFE = '+1 days'
+
+**COOKIE_DOMAIN**: Dominio para ser usado na criação de cookies
+
+    COOKIE_DOMAIN = ''
 
 **JWT**: Chave padrão para strigns jwt
 
@@ -51,18 +55,6 @@
 **PORT**: Porta para utilização do servidor embutido
 
     PORT = 8888
-
-**SESSION_TIME**: Tempo de vida de uma sessão PHP em horas
-
-    SESSION_TIME = 24
-
-**SESSION_PATH**: Caminho para ser usado na criação de cookies e session
-
-    SESSION_PATH = /
-
-**SESSION_DOMAIN**: Dominio para ser usado na criação de cookies e session
-
-    SESSION_DOMAIN = ''
     
 **STM_200**: Mensagem para o status 200
 
