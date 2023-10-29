@@ -48,6 +48,24 @@ abstract class Router
         Response::send();
     }
 
+    /** Retorna o esquema de rotas cadastradas */
+    static function getScheme(): array
+    {
+        $scheme = [];
+        foreach (self::$route as $template => $route) {
+            list($params, $response, $middlewares) = $route;
+            if (empty($middlewares))
+                $middlewares = null;
+            $scheme[] = [
+                'template' => trim($template, '/'),
+                'params' => $params,
+                'middleware' => $middlewares
+            ];
+        }
+
+        return $scheme;
+    }
+
     /** Limpa uma string para ser utilziada como uma rota */
     protected static function clearRoute($route)
     {
