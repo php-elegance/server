@@ -8,58 +8,46 @@ Controla rotas do sistema
 
 A classe conta um metodo para adiconar rotas manualmente
 
-**Router::add**: Adiciona uma rota para todas as requisições
+**Router::add**: Adiciona linhas de rotas a lista de interpretação
 
-    Router::add($template,$response);
+    Router::add( [...middlewares], [...routes]);
 
-você pode adicionar rotas que respondem a apenas um tipo de requisição
-
-    Router::get(...); // Responde apenas requisições GET
-    Router::post(...); // Responde apenas requisições POST
-    Router::put(...); // Responde apenas requisições PUT
-    Router::delete(...); // Responde apenas requisições DELETE
-
-> As ordem de declaração das rotas não importa pra a interpretação. A classe vai organizar as rotas da maneira mais segura possivel.
+> As ordem de declaração das linhas rotas não importa pra a interpretação. A classe vai organizar as rotas da maneira mais segura possivel.
 
 Para resolver as rotas, utilize o metodo **solve**
 
     Router::solve();
 
-Para importar todos os arquivos do diretório *source/routes**, utilize o metodo **import**
-
-    Router::import();
-
-Se precisar importar apenas um arquivo, passe o nome do arquivo como parametro
-
-    Router::import($fileName);
+ > O metodo **solve** vai automáticamente importar o arquivo **routes.php** na raís do seu projeto.
 
 ### Template
 
 O template é a forma como a rota será encontrada na URL.
 
-    Router::add('shop')// Reponde a URL /shop
-    Router::add('blog')// Reponde a URL /blog
-    Router::add('blog/post')// Reponde a URL /blog/post
-    Router::add('')// Reponde a URL em branco
+    'shop' // Reponde a URL /shop
+    'blog' // Reponde a URL /blog
+    'blog/post' // Reponde a URL /blog/post
 
 Para definir um parametro dinamico no template, utilize **[#]**
 
-    Router::add('blog/[#]')// Reponde a URL /blog/[alguma coisa]
-    Router::add('blog/post/[#]')// Reponde a URL /blog/post/[alguma coisa]
+    'blog/[#]' // Reponde a URL /blog/[alguma coisa]
+    'blog/post/[#]' // Reponde a URL /blog/post/[alguma coisa]
 
 Caso a rota deva aceitar mais parametros alem do definido no template, utilize o sufixo **...**
 
-    Router::add('blog...')// Reponde a URL /blog/[qualquer numero de parametros]
+    'blog...' // Reponde a URL /blog/[qualquer numero de parametros]
 
 Para nomear os parametros dinamicos, pasta adicionar um nome ao **[#]**
 
-    Router::add('blog/[#postId]')
-    Router::add('blog/post/[#imageId]')
+    'blog/[#postId]'
+    'blog/post/[#imageId]'
+
+> Você pode ocultar o **#** declarando **[#name]** apenas como **[name]**
 
 Você pode definir um valor que um parametro deva assumir.
 
-    Router::add('blog/[#postSlut:nome-do-post]')
-    Router::add('blog/[#postSlut:nome-de-outro-post]')
+    'blog/[#postSlut:nome-do-post]'
+    'blog/[#postSlut:nome-de-outro-post]'
 
  > Os parametros dinamicos podem ser recuperados utilizando a classe [Request](https://github.com/php-elegance/server/blob/main/.doc/request.md)
 
@@ -70,20 +58,20 @@ Você pode definir um valor que um parametro deva assumir.
 **query**
 Caso precise filtrar uma rota por um parametro existente no querystring, utilize o caracter **?**
 
-    Router::add('blog?post','...');
+    'blog?post'
 
 É possivel adicionar mais de um parametro e filtro de query
 
-    Router::add('blog?post?comment','...');
+    'blog?post?comment'
 
 É possivel informar multiplos filtros usando a notação da querystring
 
-    Router::add('blog?post&comment','...');
+    'blog?post&comment'
 
 No caso dos filtros por query, a ordem do filtro não influencia. Rotas com os mesmo filtros serão subistituídas. 
 
-    Router::add('blog?post?comment','...'); // Esta rota será subistituída
-    Router::add('blog?comment?post','...'); // Esta rota será utilizada
+    'blog?post?comment' // Esta rota será subistituída
+    'blog?comment?post' // Esta rota será utilizada
 
 ### Respostas
 
@@ -91,21 +79,10 @@ A classe **Elegance/Action** é responsavel por tratar as respostas das rotas em
 
 A resposta da rota vai sempre ser a ação de resposta utilizando os parametros da URL como data
 
-### Middlewares
+### Exemplo de criação de rotas
 
-Para adicionar midleware a uma rota, adicione o array de middlewaew como parametro adicionarl
-
-    Router::add('route','response',[middlewares]);
-
-Você pode definir middlewares para um grupo de rotas. Para isso, use o metodo **middleware**
-
-    Router::middleware($middlewars,function(){
-        Router::add('route1'...);
-        Router::add('route2'...);
-        Router::add('route3'...);
-        Router::add('route4'...);
-    });
-
-Para definir uma middleware chamada globalmente, basta não informar uma funcion de routas
-
-    Router::middleware([$middlewares]);
+    Router::add(['middleware1', 'middleware2'], [
+        '' => 'home',
+        'blog' => 'blog',
+        'blog/[post]' => 'blog.post'
+    ]);

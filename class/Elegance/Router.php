@@ -8,76 +8,30 @@ use Exception;
 abstract class Router
 {
     protected static array $route = [];
-    protected static array $currentMiddleware = [];
     protected static array $globalMiddleware = [];
 
     /** Adiciona rotas na lista de interpretação */
-    static function add(string $route, string|int|Closure $response, array $middleware = []): void
-    {
-        list($template, $params) = self::explodeRoute($route);
-
-        self::$route[$template] = [
-            $params,
-            $response,
-            [...self::$currentMiddleware, ...$middleware]
-        ];
-    }
-
-    /** Adiciona rotas na lista de interpretação em requisições GET */
-    static function get(string $route, string|int|Closure $response, array $middleware = []): void
-    {
-        if (IS_GET)
-            self::add(...func_get_args());
-    }
-
-    /** Adiciona rotas na lista de interpretação em requisições POST */
-    static function post(string $route, string|int|Closure $response, array $middleware = []): void
-    {
-        if (IS_POST)
-            self::add(...func_get_args());
-    }
-
-    /** Adiciona rotas na lista de interpretação em requisições PUT */
-    static function put(string $route, string|int|Closure $response, array $middleware = []): void
-    {
-        if (IS_PUT)
-            self::add(...func_get_args());
-    }
-
-    /** Adiciona rotas na lista de interpretação em requisições DELETE */
-    static function delete(string $route, string|int|Closure $response, array $middleware = []): void
-    {
-        if (IS_DELETE)
-            self::add(...func_get_args());
-    }
-
-    static function middleware(string|array $middleware, ?Closure $routes = null)
+    static function add(array $middlewares, ?array $routes = null): void
     {
         if (is_null($routes)) {
-            self::$globalMiddleware[] = $middleware;
+            self::$globalMiddleware[] = [...self::$globalMiddleware, ...$middlewares];
         } else {
-            $middlewareKey = Code::on($middleware);
-            Middleware::register($middlewareKey, $middleware);
-            self::$currentMiddleware[] = $middlewareKey;
-            $routes();
-            array_pop(self::$currentMiddleware);
-        }
-    }
-
-    /** Importa um arquivo de rota */
-    static function import(string $fileName = '')
-    {
-        if (!$fileName) {
-            foreach (Dir::seek_for_file("source/routes", true) as $fileName)
-                self::import($fileName);
-        } else {
-            Import::only("source/routes/$fileName");
+            foreach ($routes as $route => $response) {
+                list($template, $params) = self::explodeRoute($route);
+                self::$route[$template] = [
+                    $params,
+                    $response,
+                    $middlewares
+                ];
+            }
         }
     }
 
     /** Resolve a requisição atual */
     static function solve()
     {
+        Import::only("routes");
+
         $template = self::getTemplateMatch(self::$route);
 
         $route = !is_null($template) ? self::$route[$template] : [null, fn () => throw new Exception('Route not found', STS_NOT_FOUND), []];

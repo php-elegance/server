@@ -27,7 +27,6 @@
     "require": {
         "ext-mbstring": "*",
         "ext-fileinfo": "*",
-        "elegance/core": "^1.2",
-        "scssphp/scssphp": "^1.11"
+        "elegance/core": "^1.2"
     }
 }
