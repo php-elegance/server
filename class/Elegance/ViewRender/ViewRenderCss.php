@@ -2,9 +2,6 @@
 
 namespace Elegance\ViewRender;
 
-use ScssPhp\ScssPhp\Compiler;
-use ScssPhp\ScssPhp\OutputStyle;
-
 abstract class ViewRenderCss extends ViewRender
 {
     protected static array $importedHash = [];
@@ -32,7 +29,7 @@ abstract class ViewRenderCss extends ViewRender
 
         self::$importedHash[$hash] = true;
 
-        if (!self::parentType('css') && !self::parentType('scss')) {
+        if (!self::parentType('css')) {
             if (count(self::$current) == 1) {
                 $content = self::minify($content);
             } elseif ($encaps) {
@@ -54,10 +51,6 @@ abstract class ViewRenderCss extends ViewRender
     {
         foreach (self::$media as $media => $value)
             $style = str_replace("@media $media", "@media $value", $style);
-
-        $scssCompiler = (new Compiler());
-        $scssCompiler->setOutputStyle(OutputStyle::COMPRESSED);
-        $style = $scssCompiler->compileString($style)->getCss();
 
         return $style;
     }

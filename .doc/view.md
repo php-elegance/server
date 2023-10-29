@@ -86,7 +86,6 @@ Os tipos de view suportados são
 - ***.php**: Arquivo com lógica e estrutura HTML
 - ***.html**: Arquivo com estrutura HTML
 - ***.css**: Arquvio de estilização
-- ***.scss**: Arquvio de estilização SCSS
 - ***.js**: Arquvio de scripts para o frontend
 
 Você pode adicionar mais tipos de arquivo utilizando o metodo estatico **suportedSet**
@@ -105,7 +104,7 @@ Assim é possivel criar views diamicas css e js em arquivos php
 - As tags **style** minificadas, compiladas e combinadas
 - Todo script será movidos para baixo do conteúdo
 - Toda estilização a será movida para cima do conteúdo
-- Em views inpath, subviews **.css**,**.scss**, **.js** serão importadas automáticamente
+- Em views inpath, subviews **.css**, **.js** serão importadas automáticamente
 
 Para adicionar mais imports automáticos, utilize o metodo **autoImportViewEx**
 
@@ -118,7 +117,7 @@ Para adicionar mais imports automáticos, utilize o metodo **autoImportViewEx**
 - Todo script será movidos para baixo do conteúdo
 - Toda estilização a será movida para cima do conteúdo
 
-### Considerações view CSS e SCSS
+### Considerações view CSS
 
 As views CSS terão sem conteúdo minificado antes do retono. Como seu conteúdo é importado via PHP, a chamada **include** do css não deve ser utilizada. Ao invez disso, utilize a chamada de views para obter o mesmo resultado.
 
