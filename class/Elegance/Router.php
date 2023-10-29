@@ -14,7 +14,7 @@ abstract class Router
     static function add(array $middlewares, ?array $routes = null): void
     {
         if (is_null($routes)) {
-            self::$globalMiddleware[] = [...self::$globalMiddleware, ...$middlewares];
+            self::$globalMiddleware = [...self::$globalMiddleware, ...$middlewares];
         } else {
             foreach ($routes as $route => $response) {
                 list($template, $params) = self::explodeRoute($route);
@@ -51,15 +51,16 @@ abstract class Router
     /** Retorna o esquema de rotas cadastradas */
     static function getScheme(): array
     {
+        $routes = self::$route;
+        $routes = self::organize($routes);
+
         $scheme = [];
-        foreach (self::$route as $template => $route) {
+        foreach ($routes as $template => $route) {
             list($params, $response, $middlewares) = $route;
-            if (empty($middlewares))
-                $middlewares = null;
             $scheme[] = [
                 'template' => trim($template, '/'),
                 'params' => $params,
-                'middleware' => $middlewares
+                'middleware' => [...self::$globalMiddleware, ...$middlewares]
             ];
         }
 

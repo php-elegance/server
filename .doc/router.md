@@ -86,3 +86,32 @@ A resposta da rota vai sempre ser a ação de resposta utilizando os parametros 
         'blog' => 'blog',
         'blog/[post]' => 'blog.post'
     ]);
+
+### Esquema de rotas
+
+Se em algum momento da aplicação precisar obter o esquema de rotas, utilize o metodo **getScheme**
+
+    Router::getScheme();
+
+O retorno é o equema de rotas em forma de array ['template', 'params', 'middleware']
+
+**Exemplo de um esquema de rotas**
+
+    [
+        [
+            "template"=>'favicon.ico',
+            "params"=>null,
+            "middleware"=>[
+                "elegance.cros",
+                "elegance.json"
+            ]
+        ],
+        [
+            "template"=>'assets/...',
+            "params"=>null,
+            "middleware"=>[
+                "elegance.cros",
+                "elegance.json"
+            ]
+        ],
+    ]
