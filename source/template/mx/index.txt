@@ -8,13 +8,12 @@ date_default_timezone_set('America/Sao_Paulo');
 
 require './vendor/autoload.php';
 
-Router::middleware(['elegance.cros', 'elegance.json']);
+Router::add(['elegance.cros', 'elegance.json']);
 
-Router::add('assets...', fn () => Assets::send('public/', ...Request::route()));
-Router::add('favicon.ico', fn () => Assets::send('#elegance-server/public/favicon.ico'));
-
-Router::add('', '#Wellcome to Elegance PHP');
-
-Router::import();
+Router::add([], [
+    'favicon.ico' => fn () => Assets::send('#elegance-server/public/favicon.ico'),
+    'assets...' => fn () => Assets::send('public/', ...Request::route()),
+    '' => 'home'
+]);
 
 Router::solve();
