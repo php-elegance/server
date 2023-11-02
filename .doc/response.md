@@ -22,7 +22,7 @@ Classe de resposta para a requisição atual
 
 **cache**: Define se o arquivo deve ser armazenado em cache
 
-    Response::cache(null|bool|int $time): void
+    Response::cache(?string $strToTime): void
 
 **download**: Define se o navegador deve fazer download da resposta
 

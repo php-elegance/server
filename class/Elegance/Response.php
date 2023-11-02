@@ -10,7 +10,7 @@ abstract class Response
     protected static ?string $type = null;
     protected static mixed $content = null;
 
-    protected static null|int|bool $cache = null;
+    protected static ?string $cache = null;
 
     protected static bool $download = false;
     protected static ?string $downloadName = null;
@@ -51,9 +51,9 @@ abstract class Response
     }
 
     /** Define se o arquivo deve ser armazenado em cache */
-    static function cache(null|bool|int $time): void
+    static function cache(?string $strToTime): void
     {
-        self::$cache = $time;
+        self::$cache = $strToTime;
     }
 
     /** Define se o navegador deve fazer download da resposta */
@@ -141,29 +141,24 @@ abstract class Response
         $headerCache = [];
 
         $cacheType = Mime::getExMime(self::$type);
-        $cacheTime = self::$cache;
 
-        if (is_null($cacheTime))
-            $cacheTime = env(strtoupper("CACHE_$cacheType")) ?? env("CACHE");
+        $cacheTime = self::$cache ?? env(strtoupper("CACHE_$cacheType")) ?? env("CACHE");
 
-        if ($cacheTime === true)
-            $cacheTime = env("CACHE");
+        if ($cacheTime == '0') $cacheTime = false;
 
-        if (!is_null($cacheTime)) {
-            $cacheTime = intval($cacheTime);
-            if ($cacheTime) {
-                $cacheTime = $cacheTime * 60 * 60;
-                $headerCache['Pragma'] = 'public';
-                $headerCache['Cache-Control'] = 'max-age=' . $cacheTime;
-                $headerCache['Expires'] = gmdate('D, d M Y H:i:s', time() + $cacheTime) . ' GMT';
-            } else {
-                $headerCache['Pragma'] = 'no-cache';
-                $headerCache['Cache-Control'] = 'no-cache, no-store, must-revalidat';
-                $headerCache['Expires'] = '0';
-            }
+        $headerCache['Elegance-Cache'] = $cacheTime;
+
+        if ($cacheTime) {
+            $cacheTime = strtotime($cacheTime);
+            $maxAge = time() - $cacheTime;
+            $headerCache['Pragma'] = 'public';
+            $headerCache['Cache-Control'] = "max-age=$maxAge";
+            $headerCache['Expires'] = gmdate('D, d M Y H:i:s', $cacheTime) . ' GMT';
+        } else {
+            $headerCache['Pragma'] = 'no-cache';
+            $headerCache['Cache-Control'] = 'no-cache, no-store, must-revalidat';
+            $headerCache['Expires'] = '0';
         }
-
-        $headerCache['Elegance-Cache'] = $cacheTime ? $cacheTime : 'false';
 
         return $headerCache ?? [];
     }

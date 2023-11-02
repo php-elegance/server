@@ -24,13 +24,12 @@
 
     BASE_URL = http:127.0.0.1:8888
 
-**CACHE**: Tempo de cache para arquivos em horas
+**CACHE**: Tempo de cache
 
-    CACHE = null //Não altera o comportamento de cache
-    CACHE = true //Não altera o comportamento de cache
-    CACHE = false //Bloqueia cache
+    CACHE = null //Utiliza a configuração de cache global
     CACHE = 0 //Bloqueia cache
-    CACHE = 24 //Utiliza um cache de 24 horas
+    CACHE = +1 days //Utiliza um cache de 1 dia
+    CACHE = +30 days //Utiliza um cache de 30 dia
 
 **CACHE_EXEMPLE**: Tempo de cache para arquivos de uma extensão [.exemple] em horas
 
