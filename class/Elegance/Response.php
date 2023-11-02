@@ -158,7 +158,7 @@ abstract class Response
 
         $headerCache['Elegance-Cache'] = $cacheTime;
 
-        if (strtotime($cacheTime)) {
+        if ($cacheTime && strtotime($cacheTime)) {
             $cacheTime = strtotime($cacheTime);
             $maxAge = time() - $cacheTime;
             $headerCache['Pragma'] = 'public';
