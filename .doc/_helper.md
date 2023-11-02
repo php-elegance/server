@@ -26,8 +26,8 @@
 
 **CACHE**: Tempo de cache
 
-    CACHE = null //Utiliza a configuração de cache global
-    CACHE = 0 //Bloqueia cache
+    CACHE = null|true //Utiliza a configuração de cache global
+    CACHE = 0|false //Bloqueia cache
     CACHE = +1 days //Utiliza um cache de 1 dia
     CACHE = +30 days //Utiliza um cache de 30 dia
 

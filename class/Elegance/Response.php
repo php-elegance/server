@@ -51,8 +51,9 @@ abstract class Response
     }
 
     /** Define se o arquivo deve ser armazenado em cache */
-    static function cache(?string $strToTime): void
+    static function cache(null|bool|string $strToTime): void
     {
+        if (is_bool($strToTime)) $strToTime = $strToTime ? null : '';
         self::$cache = $strToTime;
     }
 
@@ -142,13 +143,22 @@ abstract class Response
 
         $cacheType = Mime::getExMime(self::$type);
 
-        $cacheTime = self::$cache ?? env(strtoupper("CACHE_$cacheType")) ?? env("CACHE");
+        $cacheTime = self::$cache;
 
-        if ($cacheTime == '0') $cacheTime = false;
+        if (is_bool($cacheTime)) $cacheTime = $cacheTime ? null : '';
+
+        $cacheTime = $cacheTime ?? env(strtoupper("CACHE_$cacheType"));
+
+        if (is_bool($cacheTime)) $cacheTime = $cacheTime ? null : '';
+
+        $cacheTime = $cacheTime ?? env("CACHE");
+
+        if (is_bool($cacheTime)) $cacheTime = $cacheTime ? null : '';
+
 
         $headerCache['Elegance-Cache'] = $cacheTime;
 
-        if ($cacheTime) {
+        if (strtotime($cacheTime)) {
             $cacheTime = strtotime($cacheTime);
             $maxAge = time() - $cacheTime;
             $headerCache['Pragma'] = 'public';
