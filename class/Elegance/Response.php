@@ -160,7 +160,7 @@ abstract class Response
 
         if ($cacheTime && strtotime($cacheTime)) {
             $cacheTime = strtotime($cacheTime);
-            $maxAge = time() - $cacheTime;
+            $maxAge = $cacheTime - time();
             $headerCache['Pragma'] = 'public';
             $headerCache['Cache-Control'] = "max-age=$maxAge";
             $headerCache['Expires'] = gmdate('D, d M Y H:i:s', $cacheTime) . ' GMT';
