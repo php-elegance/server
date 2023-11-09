@@ -10,17 +10,17 @@
     ],
     "autoload": {
         "psr-4": {
-            "": "class/"
+            "": "source/"
         },
         "files": [
-            "src/helper/constant/http_status.php",
-            "src/helper/constant/request_is.php",
-            "src/helper/function/redirect.php",
-            "src/helper/function/url.php",
-            "src/helper/function/view.php",
-            "src/helper/script/env.php",
-            "src/helper/script/path.php",
-            "src/helper/script/view.php"
+            "helper/constant/http_status.php",
+            "helper/constant/request_is.php",
+            "helper/function/redirect.php",
+            "helper/function/url.php",
+            "helper/function/view.php",
+            "helper/script/env.php",
+            "helper/script/path.php",
+            "helper/script/view.php"
         ]
     },
     "require": {
