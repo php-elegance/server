@@ -8,4 +8,7 @@
 /app
 /view/*
 !/view/template
+
+/index.php
 /routes.json
+/routes.php
