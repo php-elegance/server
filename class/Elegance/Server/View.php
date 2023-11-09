@@ -6,7 +6,8 @@ use Elegance\Core\Code;
 use Elegance\Core\Dir;
 use Elegance\Core\File;
 use Elegance\Core\Import;
-use Elegance\ViewRender\ViewRender;
+use Elegance\Server\ViewRender\ViewRender;
+use Elegance\Server\ViewRender\ViewRenderPhp;
 
 abstract class View
 {
@@ -16,14 +17,14 @@ abstract class View
 
     protected static array $prepare = [];
 
-    protected static array $suported = ['php' => 'php'];
+    protected static array $suported = ['php' => ViewRenderPhp::class];
 
     protected static array $autoImportViewEx = [];
 
     protected static array $autoImportViewFile = ['php' => '_content.php'];
 
     /** Renderiza um arquivo como uma view */
-    static function renderFile(string $viewRef, array $data = [], ...$params): string
+    static function render(string $viewRef, array $data = [], ...$params): string
     {
         $file = self::getViewFile($viewRef);
 
@@ -66,20 +67,6 @@ abstract class View
         return $content;
     }
 
-    /** Renderiza uma string como uma view */
-    static function renderString(string $viewString, string $type, array $data = [])
-    {
-        if (!self::suportedCheck($type))
-            return '';
-
-        self::currentOpen(null, $data);
-        self::currentSet('type', $type);
-        $content = self::renderize($viewString);
-        self::currentClose();
-
-        return $content;
-    }
-
     /** Define diretórios para referencia de view com determinados */
     static function prefix(string $prefix, string $path)
     {
@@ -99,13 +86,9 @@ abstract class View
         $__onescope = md5(uniqid());
         $__scope = self::currentGet('ref') ? md5(Dir::getOnly(self::currentGet('ref'))) : $__onescope;
 
-        $content = str_replace(
-            ['__onescope', '__scope'],
-            ["_$__onescope", "_$__scope"],
-            $content
-        );
+        $content = str_replace('__scope', "_$__scope", $content);
 
-        $render = '\\Elegance\\ViewRender\\ViewRender' . ucfirst(self::$suported[self::currentGet('type')]);
+        $render = self::$suported[self::currentGet('type')];
 
         if (!class_exists($render) || !is_extend($render, ViewRender::class))
             $render = ViewRender::class;
@@ -238,13 +221,12 @@ abstract class View
     }
 
     /** Adiciona suporte a um tipo de arquivo */
-    static function suportedSet(string $ex, ?string $autoImportFile = null, ?string $renderType = null)
+    static function suportedSet(string $ex, ?string $autoImportFile, string $renderClass)
     {
         $ex = strtolower($ex);
-        $renderType = strtolower($renderType ?? $ex);
 
         if (!self::suportedCheck($ex))
-            self::$suported[$ex] = $renderType;
+            self::$suported[$ex] = $renderClass;
 
         if ($autoImportFile)
             self::$autoImportViewFile[$ex] = $autoImportFile;

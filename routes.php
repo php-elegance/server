@@ -12,5 +12,4 @@ Router::add([
     'favicon.ico' => '=elegance.server.controller.assets:favicon',
     'assets...' => '=elegance.server.controller.assets:auto',
     '' => '#Bem vindo ao ELEGANCE',
-    'teste' => '>',
 ]);

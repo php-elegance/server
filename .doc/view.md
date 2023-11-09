@@ -10,7 +10,7 @@ O diretório **view** contem os arquivos para montar a camada de visualiação.
 
 Ao chamar uma view é o mesmo que executar um [prepare](https://github.com/php-elegance/core/blob/main/.doc/prepare.md) em seus arquivos. A classe se encarrega de montar a view da melhor forma possivel. Podem ser chamados via metodo, helper.
 
-    View::renderFile($ref,$prepare):string;
+    View::render($ref,$prepare):string;
     view($ref,$prepare):string;
 
 Você pode chamar views dentro de um subdiretório, para isso, adicione o caminho relativo para o arquivo partindo do diretório view/page/
