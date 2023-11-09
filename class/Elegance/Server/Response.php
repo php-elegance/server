@@ -1,6 +1,9 @@
 <?php
 
-namespace Elegance\Server\Server;
+namespace Elegance\Server;
+
+use Elegance\Core\File;
+use Elegance\Core\Mime;
 
 abstract class Response
 {

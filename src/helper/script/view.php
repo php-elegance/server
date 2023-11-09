@@ -1,6 +1,6 @@
 <?php
 
-namespace Elegance\Server\Server;
+namespace Elegance\Server;
 
 View::suportedSet('html', '_content.html', 'php');
 View::suportedSet('css', '_style.css');

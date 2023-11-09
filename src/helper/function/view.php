@@ -1,6 +1,6 @@
 <?php
 
-use Elegance\View;
+use Elegance\Server\View;
 
 if (!function_exists('view')) {
 

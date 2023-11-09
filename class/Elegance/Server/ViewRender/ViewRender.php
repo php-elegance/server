@@ -2,7 +2,7 @@
 
 namespace Elegance\Server\ViewRender;
 
-use Elegance\View;
+use Elegance\Server\View;
 
 abstract class ViewRender extends View
 {

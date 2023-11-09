@@ -1,8 +1,11 @@
 <?php
 
-namespace Elegance\Server\Server;
+namespace Elegance\Server;
 
 use Closure;
+use Elegance\Core\File;
+use Elegance\Core\Import;
+use Elegance\Core\Path;
 use Error;
 
 abstract class Middleware

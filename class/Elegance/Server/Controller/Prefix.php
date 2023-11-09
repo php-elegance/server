@@ -1,8 +1,8 @@
 <?php
 
-namespace Controller;
+namespace Elegance\Server\Controller;
 
-use Elegance\Request;
+use Elegance\Server\Request;
 
 class Prefix
 {

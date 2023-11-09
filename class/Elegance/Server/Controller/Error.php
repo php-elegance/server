@@ -1,6 +1,6 @@
 <?php
 
-namespace Controller;
+namespace Elegance\Server\Controller;
 
 use Exception;
 

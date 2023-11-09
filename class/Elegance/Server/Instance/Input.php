@@ -2,7 +2,7 @@
 
 namespace Elegance\Server\Instance;
 
-use Elegance\Request;
+use Elegance\Server\Request;
 use Exception;
 
 class Input

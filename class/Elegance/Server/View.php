@@ -1,7 +1,11 @@
 <?php
 
-namespace Elegance\Server\Server;
+namespace Elegance\Server;
 
+use Elegance\Core\Code;
+use Elegance\Core\Dir;
+use Elegance\Core\File;
+use Elegance\Core\Import;
 use Elegance\ViewRender\ViewRender;
 
 abstract class View

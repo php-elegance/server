@@ -1,6 +1,6 @@
 <?php
 
-namespace Elegance\Server\Server;
+namespace Elegance\Server;
 
 abstract class Jwt
 {

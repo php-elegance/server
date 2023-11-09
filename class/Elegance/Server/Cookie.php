@@ -1,6 +1,9 @@
 <?php
 
-namespace Elegance\Server\Server;
+namespace Elegance\Server;
+
+use Elegance\Core\Cif;
+use Elegance\Core\Code;
 
 abstract class Cookie
 {

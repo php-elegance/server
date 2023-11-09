@@ -3,7 +3,7 @@
 namespace Elegance\Server\Instance;
 
 use Closure;
-use Elegance\Prepare;
+use Elegance\Core\Prepare;
 use Exception;
 
 class InputField

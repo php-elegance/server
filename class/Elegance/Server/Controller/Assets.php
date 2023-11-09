@@ -1,9 +1,9 @@
 <?php
 
-namespace Controller;
+namespace Elegance\Server\Controller;
 
-use Elegance\File;
-use Elegance\Request;
+use Elegance\Core\File;
+use Elegance\Server\Request;
 
 class Assets
 {
