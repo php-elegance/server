@@ -5,14 +5,15 @@ namespace Elegance;
 // php mx create.structure
 
 return function () {
-    Dir::create("app");
-    Dir::create("public");
     Dir::create("class");
-    Dir::create("source");
-    Dir::create("source/helper");
-    Dir::create("source/helper/constant");
-    Dir::create("source/helper/function");
-    Dir::create("source/helper/script");
-    Dir::create("view");
+    Dir::create("front");
+    Dir::create("front/view");
+    Dir::create("library");
+    Dir::create("library/assets");
+    Dir::create("src");
+    Dir::create("src/helper");
+    Dir::create("src/helper/constant");
+    Dir::create("src/helper/function");
+    Dir::create("src/helper/script");
     Terminal::echo('Estrutura de pastas instalada');
 };

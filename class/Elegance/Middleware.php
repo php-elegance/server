@@ -55,10 +55,10 @@ abstract class Middleware
             $alias = Path::getAlias();
             $alias = array_keys($alias);
 
-            $path = path(strtolower("source/middleware/$middleware.php"));
+            $path = path(strtolower("src/middleware/$middleware.php"));
 
             while (!File::check($path) && count($alias))
-                $path = path(array_pop($alias), strtolower("source/middleware/$middleware.php"));
+                $path = path(array_pop($alias), strtolower("src/middleware/$middleware.php"));
 
             if (!File::check($path))
                 throw new Error("Middleware [$middleware] not found");

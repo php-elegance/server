@@ -23,7 +23,7 @@ Caso a middlewares seja uma classe, deve ser implementado o metodo **__invoke**
 
     php mx create.middleware [nomeDaMiddleware]
 
-Isso vai criair um arquivo dentro do diretório **source/middleware** com o nome fornecido
+Isso vai criair um arquivo dentro do diretório **src/middleware** com o nome fornecido
 
 ### Executando middlewares
 Para executar middlewares, utilize o metodo estatico **run**

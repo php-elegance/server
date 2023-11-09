@@ -10,7 +10,7 @@
 
     php mx install.index
 
-**middleware**: Cria um arquivo de middleware em **source/middleware**
+**middleware**: Cria um arquivo de middleware em **src/middleware**
 
     php mx middleware [middlewareRef]
 

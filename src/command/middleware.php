@@ -9,11 +9,11 @@ return function ($name) {
     $middleware = str_replace('.', '/', $middleware);
     $middleware = path("$middleware.php");
 
-    $template = path("#elegance-server/source/template/mx/middleware.txt");
+    $template = path("#elegance-server/front/template/mx/middleware.txt");
     $template = Import::content($template);
     $template = prepare($template, ['name' => $name]);
 
-    File::create("source/middleware/$middleware", $template);
+    File::create("src/middleware/$middleware", $template);
 
     Terminal::echo('Middleware [[#]] criada com sucesso.', $name);
 };

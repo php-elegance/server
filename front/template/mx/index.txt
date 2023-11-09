@@ -11,8 +11,8 @@ require './vendor/autoload.php';
 Router::add(['elegance.cros', 'elegance.json']);
 
 Router::add([], [
-    'favicon.ico' => fn () => Assets::send('#elegance-server/public/favicon.ico'),
-    'assets...' => fn () => Assets::send('public/', ...Request::route()),
+    'favicon.ico' => fn () => Assets::send('#elegance-server/library/assets/favicon.ico'),
+    'assets...' => fn () => Assets::send('library/assets/', ...Request::route()),
     '' => '#Elegance'
 ]);
 
