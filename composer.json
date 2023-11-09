@@ -18,7 +18,6 @@
             "src/helper/function/redirect.php",
             "src/helper/function/url.php",
             "src/helper/function/view.php",
-            "src/helper/script/action.php",
             "src/helper/script/env.php",
             "src/helper/script/path.php",
             "src/helper/script/view.php"
