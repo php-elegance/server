@@ -1,8 +1,10 @@
 <?php
 
-namespace Elegance\Server\Server;
-
 // php mx middleware
+
+use Elegance\Core\File;
+use Elegance\Core\Import;
+use Elegance\Core\Terminal;
 
 return function ($name) {
     $middleware = strtolower($name);

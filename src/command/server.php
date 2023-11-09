@@ -1,8 +1,8 @@
 <?php
 
-namespace Elegance\Server\Server;
-
 // php mx server
+
+use Elegance\Core\Terminal;
 
 return function () {
     $port = env('PORT');

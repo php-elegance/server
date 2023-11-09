@@ -1,8 +1,9 @@
 <?php
 
-namespace Elegance\Server\Server;
-
 // php mx create.structure
+
+use Elegance\Core\Dir;
+use Elegance\Core\Terminal;
 
 return function () {
     Dir::create("class");
