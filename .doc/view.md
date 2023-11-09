@@ -4,7 +4,7 @@ Camada de visualização para aplicações Mx
 
 ### Diretório
 
-O diretório **front/view** contem os arquivos para montar a camada de visualiação.
+O diretório **view** contem os arquivos para montar a camada de visualiação.
 
 ### Utilização
 

@@ -6,8 +6,7 @@ namespace Elegance;
 
 return function () {
     Dir::create("class");
-    Dir::create("front");
-    Dir::create("front/view");
+    Dir::create("view");
     Dir::create("library");
     Dir::create("library/assets");
     Dir::create("src");

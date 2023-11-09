@@ -9,7 +9,7 @@ return function ($name) {
     $middleware = str_replace('.', '/', $middleware);
     $middleware = path("$middleware.php");
 
-    $template = path("#elegance-server/front/template/mx/middleware.txt");
+    $template = path("#elegance-server/view/template/mx/middleware.txt");
     $template = Import::content($template);
     $template = prepare($template, ['name' => $name]);
 

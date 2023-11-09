@@ -6,5 +6,6 @@
 /index.php
 
 /app
-/front/view
+/view/*
+/view/template
 /routes.php
