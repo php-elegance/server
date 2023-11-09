@@ -7,5 +7,5 @@
 
 /app
 /view/*
-/view/template
+!/view/template
 /routes.php

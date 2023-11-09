@@ -1,6 +1,6 @@
 <?php
 
-namespace Elegance;
+namespace Elegance\Server\Server;
 
 abstract class Request
 {

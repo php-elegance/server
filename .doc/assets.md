@@ -4,13 +4,13 @@ Cria respostas para arquivos fisicos
 
     use \Elegance\Assets;
 
-**send**: Envia um arquivo ou view assets como resposta da requisição
+**send**: Envia um arquivo como resposta da requisição
 
     Assets::send(string $path, array $allowTypes = []): never
 
 ---
 
-**download**: Realiza o download de um arquivo ou view assets como resposta da requisição
+**download**: Realiza o download de um arquivo como resposta da requisição
 
     Assets::download(string $path, array $allowTypes = []): never
 

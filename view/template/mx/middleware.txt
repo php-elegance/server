@@ -1,0 +1,7 @@
+<?php
+
+// middleware [#name]
+
+return function($next){
+    return $next();
+};

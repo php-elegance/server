@@ -1,30 +1,47 @@
 <?php
 
-namespace Elegance;
+namespace Elegance\Server\Server;
 
 use Closure;
 use Exception;
 
 abstract class Router
 {
+    protected static array $prefix = [];
+
     protected static array $route = [];
     protected static array $globalMiddleware = [];
+
+    protected static array $error = [];
 
     /** Adiciona rotas na lista de interpretação */
     static function add(array $middlewares, ?array $routes = null): void
     {
-        if (is_null($routes)) {
-            self::$globalMiddleware = [...self::$globalMiddleware, ...$middlewares];
-        } else {
-            foreach ($routes as $route => $response) {
-                list($template, $params) = self::explodeRoute($route);
-                self::$route[$template] = [
-                    $params,
-                    $response,
-                    $middlewares
-                ];
-            }
+        if (func_num_args() == 1) {
+            $routes = $middlewares;
+            $middlewares = [];
         }
+
+        foreach ($routes as $route => $response) {
+            list($template, $params) = self::explodeRoute($route);
+            self::$route[$template] = [
+                $params,
+                $response,
+                $middlewares
+            ];
+        }
+    }
+
+    /** Define middlewares globais para as as rotas */
+    static function globalMiddleware(array $middlewares)
+    {
+        self::$globalMiddleware = [...self::$globalMiddleware, ...$middlewares];
+    }
+
+    /** Define um prefixo de ação para uma resposta de rota */
+    static function prefix(string $prefix, string $response)
+    {
+        self::$prefix[$prefix] = $response;
     }
 
     /** Resolve a requisição atual */

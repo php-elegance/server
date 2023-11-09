@@ -1,6 +1,6 @@
 <?php
 
-namespace Elegance\Instance;
+namespace Elegance\Server\Instance;
 
 abstract class InputMessage
 {

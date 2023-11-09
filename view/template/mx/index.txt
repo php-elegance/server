@@ -1,0 +1,22 @@
+<?php
+
+namespace Elegance\Server\Server;
+
+chdir(__DIR__);
+
+date_default_timezone_set('America/Sao_Paulo');
+
+require './vendor/autoload.php';
+
+Router::add(['elegance.cros', 'elegance.json']);
+
+Router::add([], [
+    '=elegance.controller' => [
+        'favicon.ico' => 'assets:favicon',
+        'assets...' => 'assets:auto'
+    ],
+    '' => '#Bem vindo ao ELEGANCE',
+    '...' => STS_NOT_FOUND,
+]);
+
+Router::solve();

@@ -1,6 +1,6 @@
 <?php
 
-namespace Elegance\ViewRender;
+namespace Elegance\Server\ViewRender;
 
 use Elegance\View;
 

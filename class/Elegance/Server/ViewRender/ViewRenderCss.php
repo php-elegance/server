@@ -1,12 +1,16 @@
 <?php
 
-namespace Elegance\ViewRender;
+namespace Elegance\Server\ViewRender;
 
-abstract class ViewRenderJs extends ViewRender
+abstract class ViewRenderCss extends ViewRender
 {
     protected static array $importedHash = [];
 
+    protected static array $media = [];
+
     protected static array $prepareReplace = [
+        '/* [#' => '[#',
+        '] */' => ']',
         '// [#' => '[#'
     ];
 
@@ -25,20 +29,29 @@ abstract class ViewRenderJs extends ViewRender
 
         self::$importedHash[$hash] = true;
 
-        if (!self::parentType('js')) {
+        if (!self::parentType('css')) {
             if (count(self::$current) == 1) {
                 $content = self::minify($content);
             } elseif ($encaps) {
-                $content = "<script>\n$content\n</script>";
+                $content = "<style>\n$content\n</style>";
             }
         }
 
         return $content;
     }
 
-    /** Minifica uma string javascript */
-    static function minify(string $script): string
+    /** Adiciona um tratamento para @media especial */
+    static function media($name, $value)
     {
-        return preg_replace(array("/\s+\n/", "/\n\s+/"), array("\n", "\n"), $script);
+        self::$media[$name] = $value;
+    }
+
+    /** Minifica uma string css */
+    static function minify(string $style): string
+    {
+        foreach (self::$media as $media => $value)
+            $style = str_replace("@media $media", "@media $value", $style);
+
+        return $style;
     }
 }

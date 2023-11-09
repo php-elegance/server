@@ -1,19 +1,19 @@
 <?php
 
-namespace Elegance;
+namespace Elegance\Server\Server;
 
 use Exception;
 
 abstract class Assets
 {
-    /** Envia um arquivo ou view assets como resposta da requisição */
+    /** Envia um arquivo como resposta da requisição */
     static function send(): never
     {
         self::loadResponse(...func_get_args());
         Response::send();
     }
 
-    /** Realiza o download de um arquivo ou view assets como resposta da requisição */
+    /** Realiza o download de um arquivo como resposta da requisição */
     static function download(): never
     {
         self::loadResponse(...func_get_args());
