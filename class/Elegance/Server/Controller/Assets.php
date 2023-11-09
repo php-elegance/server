@@ -4,6 +4,7 @@ namespace Elegance\Server\Controller;
 
 use Elegance\Core\File;
 use Elegance\Server\Request;
+use Elegance\Server\Assets as ServerAssets;
 
 class Assets
 {
@@ -25,6 +26,6 @@ class Assets
 
     protected function send($path): void
     {
-        Assets::send($path);
+        ServerAssets::send($path);
     }
 }

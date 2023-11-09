@@ -1,0 +1,34 @@
+{
+    "prefix": {
+        "#": "=elegance.server.controller.prefix:show",
+        ">": "=elegance.server.controller.prefix:redirect",
+        ">>": "=elegance.server.controller.prefix:redirectWithRequestParameters"
+    },
+    "globalMiddleware": [
+        "elegance.cros",
+        "elegance.json"
+    ],
+    "error": [],
+    "route": {
+        "favicon.ico/": [
+            null,
+            "=elegance.server.controller.assets:favicon",
+            []
+        ],
+        "teste/": [
+            null,
+            ">",
+            []
+        ],
+        "/": [
+            null,
+            "#Bem vindo ao ELEGANCE",
+            []
+        ],
+        "assets/...": [
+            null,
+            "=elegance.server.controller.assets:auto",
+            []
+        ]
+    }
+}

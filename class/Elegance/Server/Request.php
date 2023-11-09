@@ -201,10 +201,13 @@ abstract class Request
         if (IS_TERMINAL) return [];
 
         $query = $_SERVER['REQUEST_URI'];
+
         $query = parse_url($query)['query'] ?? '';
+
         parse_str($query, $query);
 
-        $query = array_map(fn ($v) => urldecode($v), $query);
+        if (is_array($query))
+            $query = array_map(fn ($v) => urldecode($v), $query);
 
         return $query;
     }

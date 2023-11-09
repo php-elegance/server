@@ -2,6 +2,8 @@
 
 namespace Elegance\Server;
 
+use Elegance\Core\File;
+use Elegance\Core\Import;
 use Exception;
 
 abstract class Assets

@@ -1,6 +1,6 @@
 <?php
 
-use Elegance\Request;
+use Elegance\Server\Request;
 
 if (!function_exists('url')) {
 

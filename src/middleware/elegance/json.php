@@ -2,7 +2,7 @@
 
 // middleware elegance.json
 
-use Elegance\Response;
+use Elegance\Server\Response;
 
 return new class
 {

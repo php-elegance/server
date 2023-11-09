@@ -2,7 +2,7 @@
 
 // middleware elegance.cros
 
-use Elegance\Response;
+use Elegance\Server\Response;
 
 return function ($next) {
     Response::header('Elegance-Cros', 'true');

@@ -16,7 +16,7 @@ class Prefix
         redirect($response, ...Request::route());
     }
 
-    protected function show(string $response): string
+    function show(string $response): string
     {
         return prepare($response, Request::route());
     }

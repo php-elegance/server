@@ -2,9 +2,11 @@
 
 namespace Elegance\Server;
 
-use Closure;
+use Elegance\Core\File;
 use Elegance\Core\Import;
+use Error;
 use Exception;
+use ReflectionMethod;
 
 abstract class Router
 {
@@ -24,12 +26,14 @@ abstract class Router
         }
 
         foreach ($routes as $route => $response) {
-            list($template, $params) = self::explodeRoute($route);
-            self::$route[$template] = [
-                $params,
-                $response,
-                $middlewares
-            ];
+            if (is_string($response) || is_httpStatus($response)) {
+                list($template, $params) = self::explodeRoute($route);
+                self::$route[$template] = [
+                    $params,
+                    $response,
+                    $middlewares
+                ];
+            }
         }
     }
 
@@ -48,41 +52,113 @@ abstract class Router
     /** Resolve a requisição atual */
     static function solve()
     {
-        Import::only("routes");
+        self::loadShemeRoutes();
 
         $template = self::getTemplateMatch(self::$route);
 
-        $route = !is_null($template) ? self::$route[$template] : [null, fn () => throw new Exception('Route not found', STS_NOT_FOUND), []];
+        $route = !is_null($template) ? self::$route[$template] : [null, STS_NOT_FOUND, []];
 
         list($params, $response, $middleware) = $route;
 
         self::setParamnsData($template, $params);
 
-        $action = Action::get($response, Request::route());
-
-        $response = Middleware::run([...self::$globalMiddleware, ...$middleware], $action);
+        $response = self::executeResponse($response, Request::data(), $middleware);
 
         Response::content($response);
         Response::send();
     }
 
-    /** Retorna o esquema de rotas cadastradas */
-    static function getScheme(): array
+    /** Executa a resposta da rota retornando a resposta final */
+    protected static function executeResponse(string|int $response, array $params, array $middleware)
     {
-        $routes = self::$route;
-        $routes = self::organize($routes);
-
-        $scheme = [];
-        foreach ($routes as $template => $route) {
-            list($params, $response, $middlewares) = $route;
-            $scheme[] = [
-                'template' => trim($template, '/'),
-                'params' => $params,
-                'middleware' => [...self::$globalMiddleware, ...$middlewares]
-            ];
+        foreach (self::$prefix as $prefix => $responsePrefix) {
+            if (str_starts_with($response, $prefix)) {
+                $response = substr($response, strlen($prefix));
+                $params = ['response' => $response];
+                $response = $responsePrefix;
+                $middleware = [];
+            }
         }
 
-        return $scheme;
+        $action = self::getReponseAction($response);
+
+        return Middleware::run([...self::$globalMiddleware, ...$middleware], fn () => $action($response, $params));
+    }
+
+    protected static function getReponseAction($response)
+    {
+        if (is_httpStatus($response))
+            return fn ($response) => throw new Exception('', $response);
+
+        return function ($response, $data) {
+            try {
+                list($controller, $method) = explode(':', $response);
+
+                if (!str_starts_with($controller, '='))
+                    $controller = "=controller.$controller";
+
+                $controller = explode('.', substr($controller, 1));
+                $controller = array_map(fn ($v) => ucfirst($v), $controller);
+                $controller = "\\" . implode("\\", $controller);
+
+                if (method_exists($controller, '__construct')) {
+                    $reflection = new ReflectionMethod($controller, '__construct');
+                    $reflectionParams = [];
+                    foreach ($reflection->getParameters() as $param) {
+                        $name = $param->getName();
+                        if (isset($data[$name])) {
+                            $reflectionParams[] = $data[$name];
+                        } else if ($param->isDefaultValueAvailable()) {
+                            $reflectionParams[] = $param->getDefaultValue();
+                        } else {
+                            throw new Exception("Parameter [$name] is required", STS_INTERNAL_SERVER_ERROR);
+                        }
+                    }
+                    $controller = new $controller(...$reflectionParams);
+                } else {
+                    $controller = new $controller();
+                }
+
+                $reflection = new ReflectionMethod($controller, $method);
+                $reflectionParams = [];
+                foreach ($reflection->getParameters() as $param) {
+                    $name = $param->getName();
+                    if (isset($data[$name])) {
+                        $reflectionParams[] = $data[$name];
+                    } else if ($param->isDefaultValueAvailable()) {
+                        $reflectionParams[] = $param->getDefaultValue();
+                    } else {
+                        throw new Exception("Parameter [$name] is required", STS_INTERNAL_SERVER_ERROR);
+                    }
+                }
+
+                return $controller->{$method}(...$reflectionParams);
+            } catch (Exception | Error $e) {
+                throw $e;
+            }
+        };
+    }
+
+    /** Carrega o esquema de rotas */
+    protected static function loadShemeRoutes()
+    {
+        if (!env('DEV') && File::check('routes.json')) {
+            $scheme = jsonFile('routes');
+            self::$prefix = $scheme['prefix'];
+            self::$globalMiddleware = $scheme['globalMiddleware'];
+            self::$error = $scheme['error'];
+            self::$route = $scheme['route'];
+        } else {
+            Import::only("routes");
+            self::$route = self::organize(self::$route);
+            $scheme = [
+                'prefix' => self::$prefix,
+                'globalMiddleware' => self::$globalMiddleware,
+                'error' => self::$error,
+                'route' => self::$route,
+            ];
+            $scheme = jsonFile('routes', $scheme);
+        }
     }
 
     /** Limpa uma string para ser utilziada como uma rota */
@@ -186,8 +262,6 @@ abstract class Router
     /** Retorna o template que combina com a URL atual */
     protected static function getTemplateMatch(array $routes): ?string
     {
-        $routes = self::organize($routes);
-
         $templates = array_keys($routes);
 
         foreach ($templates as $template)
