@@ -23,14 +23,9 @@ Caso a middlewares seja uma classe, deve ser implementado o metodo **__invoke**
 
     php mx create.middleware [nomeDaMiddleware]
 
-Isso vai criair um arquivo dentro do diretório **src/middleware** com o nome fornecido
+Isso vai criair uma classe de middleware dentro do diretório **source/Middleware** com o nome fornecido
 
 ### Executando middlewares
 Para executar middlewares, utilize o metodo estatico **run**
 
     Middleware::run(array $queue, $action)
-
-### Registrando middlewares
-Você pode registrar uma ou mais middlewares para serem chamadas juntas
-
-    Middleware::register(string $name, array|string|Closure $middleware)

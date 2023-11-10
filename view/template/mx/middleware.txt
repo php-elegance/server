@@ -1,7 +1,14 @@
 <?php
 
-// middleware [#name]
+namespace Middleware;
 
-return function($next){
-    return $next();
-};
+use Closure;
+
+/** [#name] */
+class [#class]
+{
+    function __invoke(Closure $next)
+    {
+        return $next();
+    }
+}

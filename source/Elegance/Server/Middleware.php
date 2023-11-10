@@ -3,9 +3,6 @@
 namespace Elegance\Server;
 
 use Closure;
-use Elegance\Core\File;
-use Elegance\Core\Import;
-use Elegance\Core\Path;
 use Error;
 
 abstract class Middleware
@@ -53,22 +50,15 @@ abstract class Middleware
             if (isset(self::$registred[$middleware]))
                 return self::getCallable(self::$registred[$middleware]);
 
-            $middleware = str_replace('.', '/', $middleware);
+            $class = explode('.', $middleware);
+            $class = array_map(fn ($v) => ucfirst($v), $class);
+            $class = implode("", $class);
+            $class = "\\Middleware\\Mid$class";
 
-            $alias = Path::getAlias();
-            $alias = array_keys($alias);
+            if (class_exists($class))
+                return fn ($next) => (new $class)($next);
 
-            $path = path(strtolower("src/middleware/$middleware.php"));
-
-            while (!File::check($path) && count($alias))
-                $path = path(array_pop($alias), strtolower("src/middleware/$middleware.php"));
-
-            if (!File::check($path))
-                throw new Error("Middleware [$middleware] not found");
-
-            $middleware = Import::return($path);
-
-            return self::getCallable($middleware);
+            throw new Error("Middleware [$middleware] not found");
         }
 
         if (is_closure($middleware))
