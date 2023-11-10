@@ -6,7 +6,7 @@ Router::prefix('#', '=elegance.server.controller.prefix:show');
 Router::prefix('>', '=elegance.server.controller.prefix:redirect');
 Router::prefix('>>', '=elegance.server.controller.prefix:redirectWithRequestParameters');
 
-Router::globalMiddleware(['elegance.cros', 'elegance.json']);
+Router::globalMiddleware(['cros', 'json']);
 
 Router::add([
     'favicon.ico' => '=elegance.server.controller.assets:favicon',
