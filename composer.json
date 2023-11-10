@@ -26,7 +26,6 @@
     "require": {
         "ext-mbstring": "*",
         "ext-fileinfo": "*",
-        "elegance/core": "dev-main"
-    },
-    "minimum-stability": "dev"
+        "elegance/core": "^2.0"
+    }
 }
