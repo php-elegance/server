@@ -21,6 +21,9 @@ define('STS_FORBIDDEN', 403);
 /** Não encontrado */
 define('STS_NOT_FOUND', 404);
 
+/** Eu sou um bule */
+define('STS_TEAPOT', 418);
+
 /** Método não permitido */
 define('STS_METHOD_NOT_ALLOWED', 405);
 

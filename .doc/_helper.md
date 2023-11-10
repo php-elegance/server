@@ -129,6 +129,8 @@
 
  - **STS_NOT_FOUND**: Não encontrado
 
+ - **STS_TEAPOT**: Eu sou um bule
+
  - **STS_METHOD_NOT_ALLOWED**: Método não permitido
 
  - **STS_INTERNAL_SERVER_ERROR**: Erro interno do servidor
