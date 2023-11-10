@@ -8,17 +8,12 @@ use Exception;
 
 class Status
 {
-    /** Redirecionamento */
-    function redirect(Error|Exception $e)
-    {
-        Response::header('location', $e->getMessage());
-        Response::status(STS_REDIRECT);
-        Response::send();
-    }
-
     /** Mensagem de erro generica */
     function error(Error|Exception $e)
     {
+        if ($e->getCode() == STS_REDIRECT)
+            $this->redirect($e);
+
         $status = $e->getCode();
 
         if (!is_httpStatus($status))
@@ -33,6 +28,14 @@ class Status
         Response::content($content);
         Response::cache(false);
 
+        Response::send();
+    }
+
+    /** Redirecionamento */
+    function redirect(Error|Exception $e)
+    {
+        Response::header('location', $e->getMessage());
+        Response::status(STS_REDIRECT);
         Response::send();
     }
 }

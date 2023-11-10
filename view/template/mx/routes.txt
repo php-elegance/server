@@ -2,6 +2,8 @@
 
 use Elegance\Server\Router;
 
+Router::status('=elegance.server.controller.status:error');
+
 Router::globalMiddleware(['cros', 'json']);
 
 Router::add([
@@ -13,6 +15,3 @@ Router::add([
 Router::prefix('#', '=elegance.server.controller.prefix:show');
 Router::prefix('>', '=elegance.server.controller.prefix:redirect');
 Router::prefix('>>', '=elegance.server.controller.prefix:redirectWithRequestParameters');
-
-Router::status(STS_REDIRECT, '=elegance.server.controller.status:redirect');
-Router::status('=elegance.server.controller.status:error');
