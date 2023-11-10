@@ -208,7 +208,7 @@ abstract class View
         $parentType = self::$suported[$parentType];
 
         foreach ($types as $type)
-            if (strtolower($type) == $parentType)
+            if (self::$suported[$type] == $parentType)
                 return true;
 
         return false;
