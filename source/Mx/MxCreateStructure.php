@@ -20,10 +20,8 @@ class MxCreateStructure extends Mx
         Dir::create("view");
         self::echo('Estrutura de pastas criada');
 
-        File::create('index.php', Import::content('#elegance-server/view/template/mx/index.txt'));
-        self::echo('Arquivo index.php criado');
+        self::run('create.index');
 
-        File::create('routes.php', Import::content('#elegance-server/view/template/mx/routes.txt'));
-        self::echo('Arquivo routes.php criado');
+        self::run('create.routes');
     }
 }

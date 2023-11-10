@@ -8,7 +8,9 @@ class MxServer extends Mx
     {
         $port = env('PORT');
 
-        self::run('install.index');
+        self::run('create.index');
+
+        self::run('create.routes');
 
         self::echo('-------------------------------------------------');
         self::echo('| Iniciando servidor PHP');
