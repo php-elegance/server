@@ -13,21 +13,43 @@ class MidJson
     function __invoke(Closure $next)
     {
         try {
-            $response = $next();
+            $content = $next();
 
-            if (is_httpStatus($response))
-                throw new Exception('', $response);
+            if (is_httpStatus($content))
+                throw new Exception('', $content);
 
-            $this->encapsResponse($response);
-        } catch (Exception | Error $e) {
+            $status = Response::getStatus();
+
+            Response::content($content, false);
+
+            $content = $content ?? Response::getContent();
+
+            $content = is_json($content) ? json_decode($content) : $content;
+
+            $status = is_httpStatus($status) ? $status : STS_OK;
+
+            $content = [
+                'info' => [
+                    'elegance' => true,
+                    'status' => $status,
+                    'error' => $status > 399,
+                    'message' => env("STM_$status", null),
+                ],
+                'data' => $content
+            ];
+
+            Response::status($status);
+            Response::content($content);
+        } catch (Error | Exception $e) {
             $this->encapsCatch($e);
         }
 
+        Response::type('json');
         Response::send();
     }
 
-    /** Encapsula um erro ou exception dentro de um json de resposta APIs */
-    protected function encapsCatch(Error | Exception $e)
+    /** Encapsula e envia um Error ou Exception em uma resposta json */
+    function encapsCatch(Error | Exception $e)
     {
         $status = $e->getCode();
 
@@ -69,34 +91,5 @@ class MidJson
         Response::status($status);
         Response::cache(false);
         Response::content($response);
-    }
-
-    /** Encapsula o conteúdo da resposta dentro de um json de resposta API */
-    protected function encapsResponse($content)
-    {
-        $status = Response::getStatus();
-
-        Response::content($content, false);
-
-        $content = $content ?? Response::getContent();
-
-        $content = is_json($content) ? json_decode($content) : $content;
-
-        $status = is_httpStatus($status) ? $status : STS_OK;
-
-        if (is_array($content)) {
-            $content = [
-                'info' => [
-                    'elegance' => true,
-                    'status' => $status,
-                    'error' => $status > 399,
-                    'message' => env("STM_$status", null),
-                ],
-                'data' => $content
-            ];
-        }
-
-        Response::status($status);
-        Response::content($content);
     }
 }

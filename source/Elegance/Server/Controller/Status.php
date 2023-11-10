@@ -24,9 +24,15 @@ class Status
         if (!is_httpStatus($status))
             $status = !is_class($e, Error::class) ? STS_BAD_REQUEST : STS_INTERNAL_SERVER_ERROR;
 
+        $content = $e->getMessage();
+
+        if (empty($content))
+            $content = env("STM_$status", null);
+
         Response::status($status);
-        Response::content($e->getMessage());
+        Response::content($content);
         Response::cache(false);
+
         Response::send();
     }
 }
