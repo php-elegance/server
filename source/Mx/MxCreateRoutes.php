@@ -9,7 +9,9 @@ class MxCreateRoutes extends Mx
 {
     function __invoke()
     {
-        File::create('routes.php', Import::content('#elegance-server/view/template/mx/routes.txt'));
-        self::echo('Arquivo routes.php criado');
+        if (!File::check('routes.php')) {
+            File::create('routes.php', Import::content('#elegance-server/view/template/mx/routes.txt'));
+            self::echo('Arquivo routes.php criado');
+        }
     }
 }
