@@ -9,7 +9,6 @@ Servidor web para aplicações Elegance
 
 - [helper](https://github.com/php-elegance/server/blob/main/.doc/_helper.md)
 
-- [action](https://github.com/php-elegance/server/blob/main/.doc/action.md)
 - [assets](https://github.com/php-elegance/server/blob/main/.doc/assets.md)
 - [cookie](https://github.com/php-elegance/server/blob/main/.doc/cookie.md)
 - [input](https://github.com/php-elegance/server/blob/main/.doc/input.md)
