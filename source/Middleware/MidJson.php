@@ -13,33 +13,7 @@ class MidJson
     function __invoke(Closure $next)
     {
         try {
-            $content = $next();
-
-            if (is_httpStatus($content))
-                throw new Exception('', $content);
-
-            $status = Response::getStatus();
-
-            Response::content($content, false);
-
-            $content = $content ?? Response::getContent();
-
-            $content = is_json($content) ? json_decode($content) : $content;
-
-            $status = is_httpStatus($status) ? $status : STS_OK;
-
-            $content = [
-                'info' => [
-                    'elegance' => true,
-                    'status' => $status,
-                    'error' => $status > 399,
-                    'message' => env("STM_$status", null),
-                ],
-                'data' => $content
-            ];
-
-            Response::status($status);
-            Response::content($content);
+            $this->encaps($next());
         } catch (Error | Exception $e) {
             $this->encapsCatch($e);
         }
@@ -48,8 +22,38 @@ class MidJson
         Response::send();
     }
 
-    /** Encapsula e envia um Error ou Exception em uma resposta json */
-    function encapsCatch(Error | Exception $e)
+    /** Encapsula um conteúdo para dentro da resposta em uma estrutura JSON */
+    protected function encaps($content)
+    {
+        if (is_httpStatus($content))
+            throw new Exception('', $content);
+
+        $status = Response::getStatus();
+
+        Response::content($content, false);
+
+        $content = $content ?? Response::getContent();
+
+        $content = is_json($content) ? json_decode($content) : $content;
+
+        $status = is_httpStatus($status) ? $status : STS_OK;
+
+        $content = [
+            'info' => [
+                'elegance' => true,
+                'status' => $status,
+                'error' => $status > 399,
+                'message' => env("STM_$status", null),
+            ],
+            'data' => $content
+        ];
+
+        Response::status($status);
+        Response::content($content);
+    }
+
+    /** Encapsula um Error ou Exception para dentro da resposta em uma estrutura JSON */
+    protected function encapsCatch(Error | Exception $e)
     {
         $status = $e->getCode();
 
