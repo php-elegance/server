@@ -74,7 +74,7 @@ abstract class Router
 
             self::setParamnsData($template, $params);
 
-            $response = self::executeResponse($response, Request::data(), $middleware);
+            $response = self::executeResponse($response, Request::route(), $middleware);
         } catch (Error | Exception $e) {
             $response = self::executeStatus($e);
         }
