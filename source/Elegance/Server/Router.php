@@ -108,6 +108,8 @@ abstract class Router
     /** Executa a resposta da rota retornando a resposta final */
     protected static function executeResponse(string|int $response, array $params, array $middleware)
     {
+        uksort(self::$prefix, fn ($a, $b) =>  strlen($b) <=> strlen($a));
+
         foreach (self::$prefix as $prefix => $responsePrefix) {
             if (str_starts_with($response, $prefix)) {
                 $response = substr($response, strlen($prefix));
