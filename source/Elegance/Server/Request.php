@@ -164,7 +164,7 @@ abstract class Request
     protected static function current_ssl(): bool
     {
         if (IS_TERMINAL)
-            return parse_url(env('BASE_URL'))['scheme'] == 'https';
+            return parse_url(env('TERMINAL_URL'))['scheme'] == 'https';
 
         return env('FORCE_SSL') ?? strtolower($_SERVER['HTTPS'] ?? '') == 'on';
     }
@@ -172,10 +172,10 @@ abstract class Request
     protected static function current_host(): string
     {
         if (IS_TERMINAL) {
-            $BASE_URL = parse_url(env('BASE_URL'));
-            $host = $BASE_URL['host'];
-            if (isset($BASE_URL['port']))
-                $host .= ":" . $BASE_URL['port'];
+            $TERMINAL_URL = parse_url(env('TERMINAL_URL'));
+            $host = $TERMINAL_URL['host'];
+            if (isset($TERMINAL_URL['port']))
+                $host .= ":" . $TERMINAL_URL['port'];
             return $host;
         }
 

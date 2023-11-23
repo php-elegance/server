@@ -4,7 +4,7 @@ use Elegance\Core\Env;
 
 Env::default('PORT', 8888);
 
-Env::default('BASE_URL', 'http://127.0.0.1:' . env('PORT'));
+Env::default('TERMINAL_URL', 'http://127.0.0.1:' . env('PORT'));
 
 Env::default('CACHE', null);
 

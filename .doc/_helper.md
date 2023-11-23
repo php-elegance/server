@@ -20,10 +20,6 @@
 
 ## Config
 
-**BASE_URL**: Url base utilizadas em chamada via terminal
-
-    BASE_URL = http:127.0.0.1:8888
-
 **CACHE**: Tempo de cache
 
     CACHE = null|true //Utiliza a configuração de cache global
@@ -98,6 +94,10 @@
 **STM_503**: Mensagem para o status 503
 
     STM_503 = service unavailable
+
+**TERMINAL_URL**: Url base utilizadas em chamada via terminal
+
+    TERMINAL_URL = http:127.0.0.1:8888
 
 # Constant
 
