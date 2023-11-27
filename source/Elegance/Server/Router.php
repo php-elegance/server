@@ -15,8 +15,6 @@ abstract class Router
     protected static array $route = [];
     protected static array $globalMiddleware = [];
 
-    protected static array $status = [];
-
     /** Adiciona rotas na lista de interpretação */
     static function add(array $middlewares, ?array $routes = null): void
     {
@@ -49,60 +47,29 @@ abstract class Router
         self::$prefix[$prefix] = $response;
     }
 
-    /** Adiciona um controlador para tratar status de resposta em Errro ou Exception */
-    static function status(int|string $status, ?string $controller = null)
-    {
-        if (!is_httpStatus($status)) {
-            $controller = $status;
-            $status = 0;
-        }
-
-        self::$status[$status] = $controller;
-    }
-
-    /** Resolve a requisição atual */
+    /** Resolve a requisição atual aplicando lista de middleware global */
     static function solve()
     {
-        try {
-            self::loadShemeRoutes();
+        self::loadShemeRoutes();
 
-            $template = self::getTemplateMatch(self::$route);
-
-            $route = !is_null($template) ? self::$route[$template] : [null, STS_NOT_FOUND, []];
-
-            list($params, $response, $middleware) = $route;
-
-            self::setParamnsData($template, $params);
-
-            $response = self::executeResponse($response, Request::route(), $middleware);
-        } catch (Error | Exception $e) {
-            $response = self::executeStatus($e);
-        }
+        $response = Middleware::run(self::$globalMiddleware, fn () => self::solveAction());
 
         Response::content($response);
         Response::send();
     }
 
-    /** Executa um erro */
-    protected static function executeStatus(Exception|Error $e)
+    /** Resolve a requisição atual */
+    protected static function solveAction()
     {
-        if (env('DEV')) {
-            Response::header('Elegance-Error-Message', $e->getMessage());
-            Response::header('Elegance-Error-Code', $e->getCode());
-            Response::header('Elegance-Error-File', $e->getFile());
-            Response::header('Elegance-Error-Line', $e->getLine());
-        }
+        $template = self::getTemplateMatch(self::$route);
 
-        $code = $e->getCode();
+        $route = !is_null($template) ? self::$route[$template] : [null, STS_NOT_FOUND, []];
 
-        $controller = self::$status[$code] ?? self::$status[0] ?? false;
+        list($params, $response, $middleware) = $route;
 
-        if (!$controller)
-            throw $e;
+        self::setParamnsData($template, $params);
 
-        $action = self::getReponseAction($controller);
-
-        return $action($controller, ['e' => $e]);
+        return self::executeResponse($response, Request::route(), $middleware);
     }
 
     /** Executa a resposta da rota retornando a resposta final */
@@ -121,7 +88,7 @@ abstract class Router
 
         $action = self::getReponseAction($response);
 
-        return Middleware::run([...self::$globalMiddleware, ...$middleware], fn () => $action($response, $params));
+        return Middleware::run($middleware, fn () => $action($response, $params));
     }
 
     protected static function getReponseAction($response)
@@ -185,7 +152,6 @@ abstract class Router
             $scheme = jsonFile('routes');
             self::$prefix = $scheme['prefix'];
             self::$globalMiddleware = $scheme['globalMiddleware'];
-            self::$status = $scheme['status'];
             self::$route = $scheme['route'];
         } else {
             Import::only("routes");
@@ -193,7 +159,6 @@ abstract class Router
             $scheme = [
                 'prefix' => self::$prefix,
                 'globalMiddleware' => self::$globalMiddleware,
-                'status' => self::$status,
                 'route' => self::$route,
             ];
             $scheme = jsonFile('routes', $scheme);

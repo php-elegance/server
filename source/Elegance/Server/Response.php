@@ -93,7 +93,7 @@ abstract class Response
     }
 
     /** Retorna o conteúdo atual da resposta */
-    static function getContent(): ?string
+    static function getContent(): mixed
     {
         return self::$content;
     }

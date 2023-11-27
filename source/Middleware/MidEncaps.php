@@ -7,36 +7,35 @@ use Elegance\Server\Response;
 use Error;
 use Exception;
 
-/** json */
-class MidJson
+/** encaps */
+class MidEncaps
 {
-    function __invoke(Closure $next)
+    final function __invoke(Closure $next): never
     {
         try {
-            $this->encaps($next());
+            $this->default($next());
         } catch (Error | Exception $e) {
-            $this->encapsCatch($e);
+            $status = $e->getCode();
+            if (method_exists($this, "catch_$status")) {
+                $this->{"catch_$status"}($e);
+            } else {
+                $this->catch($e);
+            }
         }
-
-        Response::type('json');
         Response::send();
     }
 
-    /** Encapsula um conteúdo para dentro da resposta em uma estrutura JSON */
-    protected function encaps($content)
+    protected function default($content)
     {
-        if (is_httpStatus($content))
-            throw new Exception('', $content);
+        if (is_httpStatus($content)) throw new Exception('', $content);
 
         $status = Response::getStatus();
+        $status = is_httpStatus($status) ? $status : STS_OK;
 
         Response::content($content, false);
-
         $content = $content ?? Response::getContent();
 
         $content = is_json($content) ? json_decode($content) : $content;
-
-        $status = is_httpStatus($status) ? $status : STS_OK;
 
         $content = [
             'info' => [
@@ -52,8 +51,7 @@ class MidJson
         Response::content($content);
     }
 
-    /** Encapsula um Error ou Exception para dentro da resposta em uma estrutura JSON */
-    protected function encapsCatch(Error | Exception $e)
+    protected function catch(Error|Exception $e)
     {
         $status = $e->getCode();
 
@@ -62,38 +60,37 @@ class MidJson
 
         $message = $e->getMessage();
 
+        $message = empty($message) ? env("STM_$status", null) : $message;
+        $message = is_json($message) ? json_decode($message, true) : ['message' => $message];
+
         $response = [
             'info' => [
                 'elegance' => true,
                 'status' => $status,
                 'error' => $status > 399,
+                ...$message
             ],
             'data' => null
         ];
 
-        if ($status == STS_REDIRECT) {
-            $response['info']['location'] = !empty($message) ? url($message) : url('.');
-            Response::header('location', $response['info']['location']);
-            $message = null;
-        }
-
-        $message = empty($message) ? env("STM_$status", null) : $message;
-        $message = is_json($message) ? json_decode($message, true) : ['message' => $message];
-
-        $response['info'] = [
-            ...$response['info'],
-            ...$message
-        ];
+        Response::header('Error-Message', remove_accents($response['info']['message']));
+        Response::header('Error-Status', $response['info']['status']);
 
         if (env('DEV') && $response['info']['error']) {
             $response['info']['file'] = $e->getFile();
             $response['info']['line'] = $e->getLine();
-            Response::header('Elegance-Error-File', $response['info']['file']);
-            Response::header('Elegance-Error-Line', $response['info']['line']);
+            Response::header('Error-File', $response['info']['file']);
+            Response::header('Error-Line', $response['info']['line']);
         }
 
         Response::status($status);
         Response::cache(false);
         Response::content($response);
+    }
+
+    protected function catch_303(Error|Exception $e)
+    {
+        Response::header('location', $e->getMessage());
+        Response::status(STS_REDIRECT);
     }
 }
