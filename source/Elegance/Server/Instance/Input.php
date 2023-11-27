@@ -80,6 +80,8 @@ class Input
     {
         foreach ($this->field as &$feild)
             $feild->get();
+
+        return true;
     }
 
     /** Lança um erro de input */

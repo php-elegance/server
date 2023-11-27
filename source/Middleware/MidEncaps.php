@@ -10,7 +10,7 @@ use Exception;
 /** encaps */
 class MidEncaps
 {
-    final function __invoke(Closure $next): never
+    function __invoke(Closure $next): never
     {
         try {
             $this->default($next());

@@ -2,16 +2,14 @@
 
 use Elegance\Server\Router;
 
-Router::status('=elegance.server.controller.status:error');
+Router::prefix('#', '=elegance.server.controller.prefix:show');
+Router::prefix('>', '=elegance.server.controller.prefix:redirect');
+Router::prefix('>>', '=elegance.server.controller.prefix:redirectWithRequestParameters');
 
-Router::globalMiddleware(['cros', 'json']);
+Router::globalMiddleware(['cros', 'encaps']);
 
 Router::add([
     'favicon.ico' => '=elegance.server.controller.assets:favicon',
     'assets...' => '=elegance.server.controller.assets:auto',
-    '' => '#Bem vindo ao ELEGANCE',
+    '' => '#Bem vindo ao Elegance',
 ]);
-
-Router::prefix('#', '=elegance.server.controller.prefix:show');
-Router::prefix('>', '=elegance.server.controller.prefix:redirect');
-Router::prefix('>>', '=elegance.server.controller.prefix:redirectWithRequestParameters');

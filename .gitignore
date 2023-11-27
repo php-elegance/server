@@ -9,6 +9,8 @@
 /view/*
 !/view/template
 
+/source/Controller
+
 /index.php
 /routes.json
 /routes.php
