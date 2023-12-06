@@ -53,7 +53,7 @@ abstract class View
             if (File::getOnly(self::currentGet('ref')) == '_content.php') {
                 foreach (self::$autoImportViewEx as $ex) {
                     $imporFile = self::$autoImportViewFile[$ex];
-                    $content .= "[#view:.$imporFile]";
+                    $content .= "[#VIEW:.$imporFile]";
                 }
             }
         } else {

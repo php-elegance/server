@@ -46,9 +46,9 @@ Usar a tag prepare junto com o prefixo **.** (ponto) vai importar um aquivo de v
 Se precisar chamar um arquivo de view, que não esteja no diretório **view**, utilize o prefixo **=**
 
 
-    [#view:page.html] // Carrega arquivo view/page.html
-    [#view:.page.html] // Carrega arquivo [currentPath]/page.html
-    [#view:=libray/page.html] // Carrega arquivo libray/page.html
+    [#VIEW:page.html] // Carrega arquivo view/page.html
+    [#VIEW:.page.html] // Carrega arquivo [currentPath]/page.html
+    [#VIEW:=libray/page.html] // Carrega arquivo libray/page.html
 
 Para adicionar prefixos extras, utilize o metodo **prefix**
 
@@ -57,12 +57,12 @@ Para adicionar prefixos extras, utilize o metodo **prefix**
 Mesmo que o prepare seja executado antes do arquivo, alguns editores podem reconhecer a tag prepare como um erro.
 Para evitar a sinalizalção de erro do editor pode-se colocar a tag prepare atras de um comentário.
 
-    [#view:...]
-    <!-- [#view:...] -->
-    <!--[#view:...]-->
-    //[#view:...]
-    /* [#view:...] */
-    /*[#view:...]*/
+    [#VIEW:...]
+    <!-- [#VIEW:...] -->
+    <!--[#VIEW:...]-->
+    //[#VIEW:...]
+    /* [#VIEW:...] */
+    /*[#VIEW:...]*/
 
 Pode-se misturar tipos de arquivo com as chamadas via prepare. Lembre-se de encapsular corretamente o conteúdo dos aquivos.
 
@@ -71,7 +71,7 @@ Pode-se misturar tipos de arquivo com as chamadas via prepare. Lembre-se de enca
 
     //view/page/index.html
     <h1>Ola mundo</h1>
-    <style>[#view:style.css]</style>
+    <style>[#VIEW:style.css]</style>
 
     //Saída
     <h1>Ola mundo</h1>
@@ -127,7 +127,7 @@ Para adicionar mais imports automáticos, utilize o metodo **autoImportViewEx**
 As views CSS terão sem conteúdo minificado antes do retono. Como seu conteúdo é importado via PHP, a chamada **include** do css não deve ser utilizada. Ao invez disso, utilize a chamada de views para obter o mesmo resultado.
 
     import './newFile.css'// Vai gerar um Erro 500
-    [#view:newFile.css]// Obtem o resultado do import
+    [#VIEW:newFile.css]// Obtem o resultado do import
     import url(...)// Pode ser usado normalmente
 
 > A classe View vai ignorar estilos ideinticos a outros estilos já inseridos na requisição. Este comportameto acontece apenas em importações de arquivos, não afeta a estilização via tag style
