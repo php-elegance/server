@@ -97,7 +97,7 @@
 
 **TERMINAL_URL**: Url base utilizadas em chamada via terminal
 
-    TERMINAL_URL = http:127.0.0.1:8888
+    TERMINAL_URL = http:localhost:8888
 
 # Constant
 
