@@ -107,6 +107,9 @@ abstract class Router
                 $controller = array_map(fn ($v) => ucfirst($v), $controller);
                 $controller = "\\" . implode("\\", $controller);
 
+                if (!class_exists($controller))
+                    throw new Exception("Route not implemented", STS_NOT_IMPLEMENTED);
+
                 if (method_exists($controller, '__construct')) {
                     $reflection = new ReflectionMethod($controller, '__construct');
                     $reflectionParams = [];
