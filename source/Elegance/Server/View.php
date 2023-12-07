@@ -24,8 +24,10 @@ abstract class View
     protected static array $autoImportViewFile = ['php' => '_content.php'];
 
     /** Renderiza um arquivo como uma view */
-    static function render(string $viewRef, array $data = [], ...$params): string
+    static function render(string $viewRef, array|string $data = [], ...$params): string
     {
+        if (is_string($data))  $data = ['CONTENT' => $data];
+
         $file = self::getViewFile($viewRef);
 
         if (!$file) return '';
