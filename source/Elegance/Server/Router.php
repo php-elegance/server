@@ -151,8 +151,8 @@ abstract class Router
     /** Carrega o esquema de rotas */
     protected static function loadShemeRoutes()
     {
-        if (!env('DEV') && File::check('routes.json')) {
-            $scheme = jsonFile('routes');
+        $scheme = jsonFile('routes');
+        if (!env('DEV') && !empty($scheme)) {
             self::$prefix = $scheme['prefix'];
             self::$globalMiddleware = $scheme['globalMiddleware'];
             self::$route = $scheme['route'];
