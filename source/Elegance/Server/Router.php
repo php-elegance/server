@@ -151,7 +151,7 @@ abstract class Router
     /** Carrega o esquema de rotas */
     protected static function loadShemeRoutes()
     {
-        $scheme = jsonFile('routes');
+        $scheme = jsonFile('library/scheme/routes');
         if (!env('DEV') && !empty($scheme)) {
             self::$prefix = $scheme['prefix'];
             self::$globalMiddleware = $scheme['globalMiddleware'];
@@ -164,7 +164,7 @@ abstract class Router
                 'globalMiddleware' => self::$globalMiddleware,
                 'route' => self::$route,
             ];
-            $scheme = jsonFile('routes', $scheme);
+            $scheme = jsonFile('library/scheme/routes', $scheme);
         }
     }
 
