@@ -10,7 +10,7 @@
 !/view/template
 
 /source/Controller
+/library/scheme/routes.json
 
 /index.php
-/routes.json
 /routes.php
