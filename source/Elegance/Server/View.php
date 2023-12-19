@@ -119,7 +119,8 @@ abstract class View
 
         $basePath = $basePath ?? 'view';
 
-        $viewRef = explode('/', $viewRef);
+        $viewRef = str_replace('/', '.', $viewRef);
+        $viewRef = explode('.', $viewRef);
 
         if (count($viewRef) > 1) {
             $viewEx = array_pop($viewRef);
