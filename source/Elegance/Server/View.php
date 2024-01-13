@@ -17,7 +17,7 @@ abstract class View
 
     protected static array $prepare = [];
 
-    protected static array $suported = ['php' => ViewRenderPhp::class];
+    protected static array $supported = ['php' => ViewRenderPhp::class];
 
     protected static array $autoImportViewEx = [];
 
@@ -90,7 +90,7 @@ abstract class View
 
         $content = str_replace('__scope', "_$__scope", $content);
 
-        $render = self::$suported[self::currentGet('type')];
+        $render = self::$supported[self::currentGet('type')];
 
         if (!class_exists($render) || !is_extend($render, ViewRender::class))
             $render = ViewRender::class;
@@ -124,7 +124,7 @@ abstract class View
 
         if (count($viewRef) > 1) {
             $viewEx = array_pop($viewRef);
-            if (!self::suportedCheck($viewEx)) {
+            if (!self::supportedCheck($viewEx)) {
                 $viewRef[] = $viewEx;
                 $viewEx = null;
             }
@@ -208,28 +208,28 @@ abstract class View
         $parentKey = $parentKey[count($parentKey) - 2];
 
         $parentType = self::$current[$parentKey]['type'];
-        $parentType = self::$suported[$parentType];
+        $parentType = self::$supported[$parentType];
 
         foreach ($types as $type)
-            if (self::$suported[$type] == $parentType)
+            if (self::$supported[$type] == $parentType)
                 return true;
 
         return false;
     }
 
     /** Verifica se o tipo de view pode ser renderizado */
-    static function suportedCheck($type)
+    static function supportedCheck($type)
     {
-        return isset(self::$suported[strtolower($type)]);
+        return isset(self::$supported[strtolower($type)]);
     }
 
     /** Adiciona suporte a um tipo de arquivo */
-    static function suportedSet(string $ex, ?string $autoImportFile, string $renderClass)
+    static function supportedSet(string $ex, ?string $autoImportFile, string $renderClass)
     {
         $ex = strtolower($ex);
 
-        if (!self::suportedCheck($ex))
-            self::$suported[$ex] = $renderClass;
+        if (!self::supportedCheck($ex))
+            self::$supported[$ex] = $renderClass;
 
         if ($autoImportFile)
             self::$autoImportViewFile[$ex] = $autoImportFile;

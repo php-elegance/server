@@ -88,13 +88,13 @@ Os tipos de view suportados são
 - ***.css**: Arquvio de estilização
 - ***.js**: Arquvio de scripts para o frontend
 
-Você pode adicionar mais tipos de arquivo utilizando o metodo estatico **suportedSet**
+Você pode adicionar mais tipos de arquivo utilizando o metodo estatico **supportedSet**
 
-    View::suportedSet('scss','_style_.scss');
+    View::supportedSet('scss','_style_.scss');
 
-Se preferir que uma view responda como um tipo diferente, adicione um terceiro parametro ao metodo **suportedSet**
+Se preferir que uma view responda como um tipo diferente, adicione um terceiro parametro ao metodo **supportedSet**
 
-    View::suportedSet('scss','_style_.scss','css'); // Views SCSS serão tratadas como view CSS
+    View::supportedSet('scss','_style_.scss','css'); // Views SCSS serão tratadas como view CSS
 
 
 ### View dinamica PHP
