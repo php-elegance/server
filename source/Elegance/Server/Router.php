@@ -24,6 +24,14 @@ abstract class Router
         }
 
         foreach ($routes as $route => $response) {
+
+            if (strpos($route, ':')) {
+                $method = strtolower(substr($route, 0, strpos($route, ':')));
+                if (!Request::type($method))
+                    $response = null;
+                $route = substr($route, strpos($route, ':') + 1);
+            }
+
             if (is_string($response) || is_httpStatus($response)) {
                 list($template, $params) = self::explodeRoute($route);
                 self::$route[$template] = [
