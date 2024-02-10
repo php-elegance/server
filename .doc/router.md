@@ -57,6 +57,21 @@ Você pode definir um valor que um parametro deva assumir.
     Request::route(0); //Retorna o primeiro parametro
     Request::route('var'); //Retorna o parametro de nome var
 
+**Rotas de API**
+Quando o objetivo é contruír uma API, é normal precisar criar rotas especificas para cada tipo de requisição. Você pode definir este tipo de rota utilizando os prefixos **GET:**, **POST:**, **PUT:** e **DELETE**.
+
+> Para utilizar este recurso, adicione a variavel de ambiente **ROUTE_API = true**
+
+    'GET:blog/...' //Responde apenas em requisiçõs do tipo GET
+    'POST:blog/...' //Responde apenas em requisiçõs do tipo POST
+    'PUT:blog/...' //Responde apenas em requisiçõs do tipo PUT
+    'DELETE:blog/...' //Responde apenas em requisiçõs do tipo DELETE
+
+Você não precisa defir um metodo para todas as rotas, os templetes sem prefixo ainda vão funcionar, mas devem ser declarados **antes** das rotas prefixadas.
+
+    'blog/...' //Responde a todas as requisiçõs
+    'POST:blog/...' //Responde apenas em requisiçõs do tipo GET
+
 **query**
 Caso precise filtrar uma rota por um parametro existente no querystring, utilize o caracter **?**
 

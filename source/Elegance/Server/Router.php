@@ -24,14 +24,12 @@ abstract class Router
         }
 
         foreach ($routes as $route => $response) {
-
-            if (strpos($route, ':')) {
+            if (env('ROUTE_API') && strpos($route, ':')) {
                 $method = strtolower(substr($route, 0, strpos($route, ':')));
                 if (!Request::type($method))
                     $response = null;
                 $route = substr($route, strpos($route, ':') + 1);
             }
-
             if (is_string($response) || is_httpStatus($response)) {
                 list($template, $params) = self::explodeRoute($route);
                 self::$route[$template] = [
@@ -159,20 +157,25 @@ abstract class Router
     /** Carrega o esquema de rotas */
     protected static function loadShemeRoutes()
     {
-        $scheme = jsonFile('library/scheme/routes');
-        if (!env('DEV') && !empty($scheme)) {
-            self::$prefix = $scheme['prefix'];
-            self::$globalMiddleware = $scheme['globalMiddleware'];
-            self::$route = $scheme['route'];
-        } else {
+        if (env('ROUTE_API')) {
             Import::only("routes");
             self::$route = self::organize(self::$route);
-            $scheme = [
-                'prefix' => self::$prefix,
-                'globalMiddleware' => self::$globalMiddleware,
-                'route' => self::$route,
-            ];
-            $scheme = jsonFile('library/scheme/routes', $scheme);
+        } else {
+            $scheme = jsonFile('library/scheme/routes');
+            if (!env('DEV') && !empty($scheme)) {
+                self::$prefix = $scheme['prefix'];
+                self::$globalMiddleware = $scheme['globalMiddleware'];
+                self::$route = $scheme['route'];
+            } else {
+                Import::only("routes");
+                self::$route = self::organize(self::$route);
+                $scheme = [
+                    'prefix' => self::$prefix,
+                    'globalMiddleware' => self::$globalMiddleware,
+                    'route' => self::$route,
+                ];
+                $scheme = jsonFile('library/scheme/routes', $scheme);
+            }
         }
     }
 

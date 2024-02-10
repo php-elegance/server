@@ -51,6 +51,10 @@
 
     PORT = 8888
     
+**ROUTE_API**: Se o sistema utiliza rotas de API
+
+    ROUTE_API = false
+    
 **STM_200**: Mensagem para o status 200
 
     STM_200 = ok
